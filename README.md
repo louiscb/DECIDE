@@ -15,6 +15,9 @@ Using gradle in the project:
 
 `./gradlew build`
 
+(You might have to run the following command if the above does not work:
+`gradle wrapper`)
+
 ## How to run?
 
 Once you have built the project you can it:
