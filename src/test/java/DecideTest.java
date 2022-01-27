@@ -28,4 +28,23 @@ class DecideTest {
         }
         assertFalse(decide.evaluateLIC_0());
     }
+
+    @Test
+    void test_launch_true() {
+        Decide decide = new Decide();
+        for (int i = 0; i < decide.params.FUV.length; i++) {
+            decide.params.FUV[i] = true;
+        }
+        assertTrue(decide.launch(decide.params.FUV));
+    }
+
+    @Test
+    void test_launch_false() {
+        Decide decide = new Decide();
+        for (int i = 0; i < decide.params.FUV.length; i++) {
+            decide.params.FUV[i] = true;
+        }
+        decide.params.FUV[0] = false; 
+        assertFalse(decide.launch(decide.params.FUV));
+    }
 }

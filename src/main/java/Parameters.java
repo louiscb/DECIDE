@@ -14,7 +14,7 @@ public class Parameters {
 
     boolean[] CMV = new boolean[NUMCONDITIONS];
     Connectors[][] LCM = new Connectors[NUMCONDITIONS][NUMCONDITIONS];
-    boolean[][] PUM;
+    boolean[][] PUM = new boolean[NUMCONDITIONS][NUMCONDITIONS];
     boolean[] PUV = new boolean[NUMCONDITIONS];
-    boolean[] FUV;
+    boolean[] FUV = new boolean[NUMCONDITIONS];
 }
