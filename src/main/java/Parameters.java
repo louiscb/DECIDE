@@ -9,17 +9,11 @@ public class Parameters {
         ANDD,
         NOTUSED
     };
-    Point[] points; //= new Point[NUMPOINTS];
-    boolean[] CMV;
-    Connectors[][] LCM; //= new Connectors[NUMCONDITIONS][NUMCONDITIONS];
-    boolean[][] PUM;
-    boolean[] PUV;
-    boolean[] FUV;
+    Decide.Point[] points = new Decide.Point[NUMPOINTS];
 
-    private class Point {
-        double x;
-        double y;
-        double getX() { return this.x; }
-        double getY() { return this.y; }
-    }
+    boolean[] CMV = new boolean[NUMCONDITIONS];
+    Connectors[][] LCM = new Connectors[NUMCONDITIONS][NUMCONDITIONS];
+    boolean[][] PUM;
+    boolean[] PUV = new boolean[NUMCONDITIONS];
+    boolean[] FUV;
 }
