@@ -6,8 +6,7 @@ More to come...
 
 In order to use this program you need to download:
 
-- Java 
-- Gradle
+- Java 17
 
 ## How to Build?
 
