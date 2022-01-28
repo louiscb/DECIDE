@@ -15,6 +15,16 @@ public class Decide {
         return false;
     }
 
+    boolean evaluateLIC_5() {
+        for (int i = 0; i < params.points.length; i++) {
+            if (i + 1 == params.points.length)
+                return false;
+            if (params.points[i+1].getX() - params.points[i].getX() < 0)
+                return true;
+        }
+        return false;
+    }
+
     void generatePUM() { 
         for (int i = 0; i < params.PUM.length; i++) {
             for (int j = 0; j < params.PUM.length; j++) {
