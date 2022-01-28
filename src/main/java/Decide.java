@@ -6,18 +6,13 @@ public class Decide {
     }
 
     boolean evaluateLIC_0() {
-        boolean satisifed = false;
         for (int i = 0; i < params.points.length; i++) {
             if (i + 1 == params.points.length)
-                break;
-            Point point = params.points[i];
-            Point nextPoint = params.points[i + 1];
-            if (point.distanceTo(nextPoint) <= params.LENGTH1) {
-                satisifed = true;
-                break;
-            }
+                return false;
+            if (params.points[i].distanceTo(params.points[i + 1]) > params.LENGTH1)
+                return true;
         }
-        return satisifed;
+        return false;
     }
 
     public class Point {
