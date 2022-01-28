@@ -12,7 +12,6 @@ class DecideTest {
         for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = decide.new Point(i,i);
         }
-        decide.params.points[35].printPoint();
         // Put (35,35) on (34, 34) so that the distance to the next point (36, 36) is > LENGTH1.
         decide.params.points[35] = decide.new Point(34, 34);
         assertTrue(decide.evaluateLIC_0());
