@@ -30,6 +30,30 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_5_false() {
+        Decide decide = new Decide();
+        decide.params.LENGTH1 = 2;
+        // Put points on (0,0), (1,0), ..., (99,0).
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(i,0);
+        }
+        assertFalse(decide.evaluateLIC_5());
+    }
+
+    @Test
+    void test_evaluate_LIC_5_true() {
+        Decide decide = new Decide();
+        decide.params.LENGTH1 = 2;
+        // Put points on (0,0), (1,0), ..., (99,0).
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(i,0);
+        }
+        // Move (4,0) to (2.5,0) so that its x-coordinate is lesser than that of the point preceding it.
+        decide.params.points[4] = decide.new Point(2.5,0);
+        assertTrue(decide.evaluateLIC_5());
+    }
+
+    @Test
     void test_launch_true() {
         Decide decide = new Decide();
         for (int i = 0; i < decide.params.FUV.length; i++) {
