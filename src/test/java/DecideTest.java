@@ -153,6 +153,30 @@ class DecideTest {
     }
 
     @Test
+    void test_generate_FUV_elements() {
+        Decide decide = new Decide();
+        // Set elements in the first three rows of PUM to true
+        for (int i = 0; i < 3; i++) 
+            for (int j = 0; j < decide.params.PUM.length; j++)
+                decide.params.PUM[i][j] = true;
+        // Set first three PUV elements to true 
+        for (int i = 0; i < 3 ; i++)
+            decide.params.PUV[i] = true;
+        // Set one element in third row of PUM to false
+        decide.params.PUM[2][8] = false;
+        // Set second element of PUV to false
+        decide.params.PUV[1] = false;
+
+        decide.generateFUV();
+        // FUV[0] is true since PUV[0] is true and PUM[0][i] is true for all i 
+        assertTrue(decide.params.FUV[0]);
+        // FUV[1] is true since PUV[1] is false.
+        assertTrue(decide.params.FUV[1]);
+        // FUV[2] is false since PUV[2] is true and PUM[2][i] is not true for all i
+        assertFalse(decide.params.FUV[2]);
+    }
+
+    @Test
     void test_triangle_area() {
         Decide decide = new Decide();
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(3,6), decide.new Point(8,9)), 7);
