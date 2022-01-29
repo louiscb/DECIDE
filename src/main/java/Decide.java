@@ -50,6 +50,22 @@ public class Decide {
         }
     }
 
+    void generateFUV() {
+        for (int i = 0; i < params.FUV.length; i++) {
+            boolean[] row = params.PUM[i];
+            if (!params.PUV[i]) 
+                params.FUV[i] = true;
+            else {
+                params.FUV[i] = true;
+                for (boolean b : row) 
+                    if (!b) {
+                        params.FUV[i] = false;
+                        break;
+                    }
+            }
+        }
+    }
+
     public class Point {
         private double x;
         private double y;
