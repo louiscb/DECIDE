@@ -2,6 +2,8 @@ import java.lang.Math;
 public class Decide {
     Parameters params = new Parameters();
     public static void main(String[] args) {
+        Decide decide = new Decide();
+        System.out.println(decide.triangleArea(decide.new Point(0, 0), decide.new Point(1,0), decide.new Point(2,2)));
         
     }
 
@@ -20,6 +22,18 @@ public class Decide {
             if (i + 1 == params.points.length)
                 return false;
             if (params.points[i+1].getX() - params.points[i].getX() < 0)
+                return true;
+        }
+        return false;
+    }
+
+    boolean evaluateLIC_10() {
+        if (params.points.length < 5) return false;
+        for (int i = 0; i < params.points.length - params.E_PTS - params.F_PTS - 2; i++) {
+            Point a = params.points[i];
+            Point b = params.points[i + params.E_PTS + 1];
+            Point c = params.points[i + params.E_PTS + params.F_PTS + 2];
+            if (triangleArea(a,b,c) > params.AREA1)
                 return true;
         }
         return false;
@@ -57,6 +71,12 @@ public class Decide {
         }
     }
 
+    double triangleArea(Point a, Point b, Point c) {
+        return Math.abs(0.5*(a.getX()* (b.getY()-c.getY()) + 
+                            b.getX()* (c.getY() - a.getY()) + 
+                            c.getX()* (a.getY() - b.getY())));
+    }
+    
     boolean launch(boolean[] FUV) {
         for (int i=0; i<FUV.length; i++) {
             if (!FUV[i]) {

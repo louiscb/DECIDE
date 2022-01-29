@@ -54,6 +54,57 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_10_true() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 25;
+        decide.params.F_PTS = 50;
+        decide.params.AREA1 = 5;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Create points that are separated by E_PTS and F_PTS points and that form a triangle with area 8 > AREA1.
+        decide.params.points[10] = decide.new Point(50,50);
+        decide.params.points[10 + decide.params.E_PTS + 1] = decide.new Point(54,50);
+        decide.params.points[10 + decide.params.E_PTS + decide.params.F_PTS + 2] = decide.new Point(54,54);
+        assertTrue(decide.evaluateLIC_10());
+    }
+
+    @Test
+    void test_evaluate_LIC_10_false_1() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 25;
+        decide.params.F_PTS = 50;
+        decide.params.AREA1 = 5;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Create points that are NOT separated by E_PTS and F_PTS points and that form a triangle with area 8 > AREA1.
+        decide.params.points[10] = decide.new Point(50,50);
+        decide.params.points[10 + decide.params.E_PTS + 3] = decide.new Point(54,50);
+        decide.params.points[10 + decide.params.E_PTS + decide.params.F_PTS + 5] = decide.new Point(54,54);
+        assertFalse(decide.evaluateLIC_10());   
+    }
+
+    @Test
+    void test_evaluate_LIC_10_false_2() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 25;
+        decide.params.F_PTS = 50;
+        decide.params.AREA1 = 5;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Create points that are separated by E_PTS and F_PTS points and that form a triangle with area 2 < AREA1.
+        decide.params.points[10] = decide.new Point(50,50);
+        decide.params.points[10 + decide.params.E_PTS + 1] = decide.new Point(52,50);
+        decide.params.points[10 + decide.params.E_PTS + decide.params.F_PTS + 2] = decide.new Point(52,52);
+        assertFalse(decide.evaluateLIC_10());   
+    }
+
+    @Test
     void test_launch_true() {
         Decide decide = new Decide();
         for (int i = 0; i < decide.params.FUV.length; i++) {
@@ -99,5 +150,12 @@ class DecideTest {
         assertFalse(decide.params.PUM[0][3]);
         // _ NOTUSED _ == true
         assertTrue(decide.params.PUM[2][3]);
+    }
+
+    @Test
+    void test_triangle_area() {
+        Decide decide = new Decide();
+        assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(3,6), decide.new Point(8,9)), 7);
+        assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(4,8), decide.new Point(16,32)), 0);
     }
 }
