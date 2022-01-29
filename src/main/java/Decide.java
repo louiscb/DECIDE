@@ -15,6 +15,17 @@ public class Decide {
         return false;
     }
 
+    void generatePUM() { 
+        for (int i = 0; i < params.PUM.length; i++) {
+            for (int j = 0; j < params.PUM.length; j++) {
+                if (i == j) continue; // ignore diagonal PUM elements
+                params.PUM[i][j] = (params.LCM[i][j] == Parameters.Connectors.ANDD && params.CMV[i] && params.CMV[j])
+                                   || (params.LCM[i][j] == Parameters.Connectors.ORR && (params.CMV[i] || params.CMV[j]))
+                                   || (params.LCM[i][j] == Parameters.Connectors.NOTUSED);
+            }
+        }
+    }
+
     public class Point {
         private double x;
         private double y;
