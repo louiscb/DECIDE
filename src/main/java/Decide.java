@@ -1,5 +1,5 @@
 import java.lang.Math;
-import java.util.Arrays;
+
 public class Decide {
     Parameters params = new Parameters();
     public static void main(String[] args) {
@@ -19,16 +19,14 @@ public class Decide {
     }
 
     boolean evaluateLIC_1() {
-        if (params.RADIUS1 < 0) {
-            return false;
-        }
         for (int i = 0; i < params.points.length - 2; i++) {
             Point a = params.points[i];
             Point b = params.points[i+1];
             Point c = params.points[i+2];
-            if(minCircleRadius(a, b, c) > params.RADIUS1) {
+            if(a.distanceTo(b) > 2 * params.RADIUS1 ||
+               b.distanceTo(c) > 2 * params.RADIUS1 ||
+               c.distanceTo(a) > 2 * params.RADIUS1)
                 return true;
-            }
         }
         return false;
     }
