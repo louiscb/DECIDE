@@ -106,6 +106,36 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_7_true() {
+        Decide decide = new Decide();
+        decide.params.K_PTS = 2;
+        decide.params.LENGTH1= 1;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Update two points so that they have a distance greater than length and are separated by K_PTS
+        decide.params.points[3] = decide.new Point(50,0);
+        decide.params.points[6] = decide.new Point(50,50);
+        assertTrue(decide.evaluateLIC_7());
+    }
+
+    @Test
+    void test_evaluate_LIC_7_false() {
+        Decide decide = new Decide();
+        decide.params.K_PTS = 2;
+        decide.params.LENGTH1= 50;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Update two points, but there distance is not greater than LENGTH1
+        decide.params.points[3] = decide.new Point(1,1);
+        decide.params.points[6] = decide.new Point(2,2);
+        assertFalse(decide.evaluateLIC_7());
+    }
+
+    @Test
     void test_evaluate_LIC_8_true() {
         Decide decide = new Decide();
         decide.params.A_PTS = 2;
