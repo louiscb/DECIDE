@@ -31,6 +31,17 @@ public class Decide {
         return false;
     }
 
+    boolean evaluateLIC_3() {
+        for (int i = 0; i < params.points.length - 2; i++) {
+            Point a = params.points[i];
+            Point b = params.points[i+1];
+            Point c = params.points[i+2];
+            if (triangleArea(a,b,c) > params.AREA1)
+                return true;
+        }
+        return false;
+    }
+
     boolean evaluateLIC_5() {
         for (int i = 0; i < params.points.length; i++) {
             if (i + 1 == params.points.length)
