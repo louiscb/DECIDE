@@ -44,12 +44,12 @@ public class Decide {
     }
 
     boolean evaluateLIC_7(){
-        if((!(1<= params.K_PTS && params.K_PTS <=(params.NUMPOINTS-2))) || (params.NUMPOINTS < 3))
+        if (params.NUMPOINTS < 3)
             return false;
-        for (int i=0; i<params.points.length - params.K_PTS - 1; i++){
+        for (int i = 0; i < params.points.length - params.K_PTS - 1; i++){
             Point point1 = params.points[i];
             Point point2 = params.points[i + params.K_PTS + 1];
-            if(point1.distanceTo(point2)>params.LENGTH1)
+            if (point1.distanceTo(point2) > params.LENGTH1)
                 return true; 
         }
         return false;
