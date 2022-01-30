@@ -218,6 +218,64 @@ class DecideTest {
         assertFalse(decide.evaluateLIC_10());   
     }
 
+    // Meets conditions both for radius 1 and radius 2
+    @Test
+    void test_evaluate_LIC_13_true() {
+        Decide decide = new Decide();
+        decide.params.A_PTS = 10;
+        decide.params.B_PTS =30;
+        decide.params.RADIUS1 = 20;
+        decide.params.RADIUS2 = 10;
+        // Set all points to (0.1*i,0.1*i).  
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0.1*i,0.1*i);
+        }
+        decide.params.points[11] = decide.new Point(50,0);
+        decide.params.points[42] = decide.new Point(50,25);
+    }
+
+    // Meets only condition for radius 1
+    @Test
+    void test_evaluate_LIC_13_false_1() {
+         Decide decide = new Decide();
+         decide.params.A_PTS = 10;
+         decide.params.B_PTS = 30;
+         decide.params.RADIUS1 = 10;
+         decide.params.RADIUS2 = 0.1;
+         // Set all points to (i,i).  
+         for (int i = 0; i < decide.params.points.length; i++) {
+             decide.params.points[i] = decide.new Point(i,i);
+         }
+    }
+
+    // Meets only condition for radius 2
+    @Test
+    void test_evaluate_LIC_13_false_2() {
+         Decide decide = new Decide();
+         decide.params.A_PTS = 20;
+         decide.params.B_PTS = 30;
+         decide.params.RADIUS1 = 1000;
+         decide.params.RADIUS2 = 100;
+         // Set all points to (2i,2i).  
+         for (int i = 0; i < decide.params.points.length; i++) {
+             decide.params.points[i] = decide.new Point(i,i);
+         }
+    }
+
+    // None of the conditions are met
+    @Test
+    void test_evaluate_LIC_13_false_3() {
+         Decide decide = new Decide();
+         decide.params.A_PTS = 2;
+         decide.params.B_PTS = 3;
+         decide.params.RADIUS1 = 1000;
+         decide.params.RADIUS2 = 0.1;
+         // Set all points to (2i,2i).  
+         for (int i = 0; i < decide.params.points.length; i++) {
+             decide.params.points[i] = decide.new Point(i,i);
+         }
+    }
+
     @Test
     void test_launch_true() {
         Decide decide = new Decide();

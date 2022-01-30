@@ -88,6 +88,29 @@ public class Decide {
         return false;
     }
 
+    boolean evaluateLIC_13() {
+        boolean radius1 = false;
+        boolean radius2 = false;
+        if (params.points.length < 5) return false;
+        for (int i = 0; i < params.points.length - params.A_PTS - params.B_PTS - 2; i++) {
+            Point a = params.points[i];
+            Point b = params.points[i + params.A_PTS + 1];
+            Point c = params.points[i + params.A_PTS + params.B_PTS + 2];
+            if (!radius1) {
+                if (a.distanceTo(b) > 2 * params.RADIUS1 ||
+                    b.distanceTo(c) > 2 * params.RADIUS1 ||
+                    c.distanceTo(a) > 2 * params.RADIUS1) radius1 = true;
+            }
+            if (!radius2) {
+                if (a.distanceTo(b) <= 2 * params.RADIUS2 ||
+                    b.distanceTo(c) <= 2 * params.RADIUS2 ||
+                    c.distanceTo(a) <= 2 * params.RADIUS2) radius2 = true;
+            }
+            if (radius1 && radius2) return true;           
+        }
+        return false;
+    }
+
     void generatePUM() { 
         for (int i = 0; i < params.PUM.length; i++) {
             for (int j = 0; j < params.PUM.length; j++) {
