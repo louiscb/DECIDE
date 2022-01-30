@@ -32,15 +32,15 @@ class DecideTest {
     @Test 
     void test_evaluate_LIC_1_true() {
         Decide decide = new Decide();
-        // (-3, 4), (4, 5), (1, -4) triangle is not obtuse and the circum-radius is 5.
-        // (-3.5, 4), (-3, 4), (4, 5) triangle is obtuse and the radius is 3.78.
-        // Therefore (-3, 4), (4, 5), (1, -4) should make it return true.
-        decide.params.points = new Decide.Point[4];
-        decide.params.points[0] = decide.new Point(-3.5, 4);
-        decide.params.points[1] = decide.new Point(-3, 4);
-        decide.params.points[2] = decide.new Point(4, 5);
-        decide.params.points[3] = decide.new Point(1, -4);
-        decide.params.RADIUS1 = 4.9;
+        decide.params.RADIUS1 = 1;
+       // set all three consecutive points near each other, within a radius less than 1.
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(i*0.01,i*0.015);
+        }
+        // change the last three consecutive points so that RADIUS1 is to small 
+        decide.params.points[decide.params.points.length-3] = decide.new Point(0,0);
+        decide.params.points[decide.params.points.length-2] = decide.new Point(5,0);
+        decide.params.points[decide.params.points.length-1] = decide.new Point(10,5);
         
         assertTrue(decide.evaluateLIC_1());
     }
@@ -48,16 +48,11 @@ class DecideTest {
     @Test 
     void test_evaluate_LIC_1_false() {
         Decide decide = new Decide();
-        // (-3, 4), (4, 5), (1, -4) triangle is not obtuse and the circum-radius is 5.
-        // (4, 5), (1, -4), (1, -4) triangle is obtuse and the radius is 4.74.
-        // Both are less than 5.1 and it should therefore return false.
-        decide.params.points = new Decide.Point[4];
-        decide.params.points[0] = decide.new Point(-3, 4);
-        decide.params.points[1] = decide.new Point(4, 5);
-        decide.params.points[2] = decide.new Point(1, -4);
-        decide.params.points[3] = decide.new Point(1.5, -4);
-        decide.params.RADIUS1 = 5.1;
-        
+        decide.params.RADIUS1 = 1;
+         // set all three consecutive points near each other, within a radius less than 1. 
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(i*0.01,i*0.015);
+        }
         assertFalse(decide.evaluateLIC_1());
     }
 
@@ -247,34 +242,4 @@ class DecideTest {
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(4,8), decide.new Point(16,32)), 0);
     }
 
-    @Test
-    void minCircleRadius() {
-        Decide decide = new Decide();
-        
-        Decide.Point a = decide.new Point(-3, 4);
-        Decide.Point b = decide.new Point(4, 5);
-        Decide.Point c = decide.new Point(1, -4);
-        assertEquals(decide.minCircleRadius(a, b, c), 5);
-
-        a = decide.new Point(3, 5);
-        b = decide.new Point(2, 6);
-        c = decide.new Point(-4, -2);
-        assertEquals(decide.minCircleRadius(a, b, c), 5);
-        
-        // obtuse triangle, (longest triangle edge)*0.5 should be returned
-        a = decide.new Point(0, 0);
-        b = decide.new Point(4, 0);
-        c = decide.new Point(8, 2);
-        double ab = a.distanceTo(b);
-        double ac = a.distanceTo(c);
-        double bc = b.distanceTo(c);
-        double maxDist = Math.max(ab, Math.max(ac, bc));
-        assertEquals(decide.minCircleRadius(a, b, c), maxDist*0.5);
-        
-        // no triangle
-        a = decide.new Point(4, 4);
-        b = decide.new Point(4, 5);
-        c = decide.new Point(4, -4);
-        assertEquals(decide.minCircleRadius(a, b, c), Double.POSITIVE_INFINITY);
-    }
 }
