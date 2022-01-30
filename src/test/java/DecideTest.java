@@ -29,6 +29,38 @@ class DecideTest {
         assertFalse(decide.evaluateLIC_0());
     }
 
+    @Test 
+    void test_evaluate_LIC_1_true() {
+        Decide decide = new Decide();
+        // (-3, 4), (4, 5), (1, -4) triangle is not obtuse and the circum-radius is 5.
+        // (-3.5, 4), (-3, 4), (4, 5) triangle is obtuse and the radius is 3.78.
+        // Therefore (-3, 4), (4, 5), (1, -4) should make it return true.
+        decide.params.points = new Decide.Point[4];
+        decide.params.points[0] = decide.new Point(-3.5, 4);
+        decide.params.points[1] = decide.new Point(-3, 4);
+        decide.params.points[2] = decide.new Point(4, 5);
+        decide.params.points[3] = decide.new Point(1, -4);
+        decide.params.RADIUS1 = 4.9;
+        
+        assertTrue(decide.evaluateLIC_1());
+    }
+
+    @Test 
+    void test_evaluate_LIC_1_false() {
+        Decide decide = new Decide();
+        // (-3, 4), (4, 5), (1, -4) triangle is not obtuse and the circum-radius is 5.
+        // (4, 5), (1, -4), (1, -4) triangle is obtuse and the radius is 4.74.
+        // Both are less than 5.1 and it should therefore return false.
+        decide.params.points = new Decide.Point[4];
+        decide.params.points[0] = decide.new Point(-3, 4);
+        decide.params.points[1] = decide.new Point(4, 5);
+        decide.params.points[2] = decide.new Point(1, -4);
+        decide.params.points[3] = decide.new Point(1.5, -4);
+        decide.params.RADIUS1 = 5.1;
+        
+        assertFalse(decide.evaluateLIC_1());
+    }
+
     @Test
     void test_evaluate_LIC_3_true() {
         Decide decide = new Decide();
