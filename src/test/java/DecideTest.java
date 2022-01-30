@@ -106,6 +106,38 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_8_true() {
+        Decide decide = new Decide();
+        decide.params.A_PTS = 2;
+        decide.params.B_PTS = 3;
+        decide.params.RADIUS1 = 5;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Update two points so that three points can not put within the RADIUS1
+        decide.params.points[3] = decide.new Point(50,0);
+        decide.params.points[7] = decide.new Point(50,50);
+        assertTrue(decide.evaluateLIC_8());
+    }
+
+    @Test
+    void test_evaluate_LIC_8_false() {
+        Decide decide = new Decide();
+        decide.params.A_PTS = 2;
+        decide.params.B_PTS = 3;
+        decide.params.RADIUS1 = 5;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Update two points but three points are still within the RADIUS1
+        decide.params.points[3] = decide.new Point(1,0);
+        decide.params.points[7] = decide.new Point(1,1);
+        assertFalse(decide.evaluateLIC_8());
+    }
+
+    @Test
     void test_evaluate_LIC_10_true() {
         Decide decide = new Decide();
         decide.params.E_PTS = 25;
@@ -234,4 +266,5 @@ class DecideTest {
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(3,6), decide.new Point(8,9)), 7);
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(4,8), decide.new Point(16,32)), 0);
     }
+
 }
