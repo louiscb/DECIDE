@@ -2,8 +2,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.beans.Transient;
-
 class DecideTest {
     @Test 
     void test_evaluate_LIC_0_consecutive() {
@@ -42,7 +40,7 @@ class DecideTest {
         // Update two points so that the area of the triangle will be > AREA1
         decide.params.points[1] = decide.new Point(3,3);
         decide.params.points[2] = decide.new Point(5,0);
-        assertTrue(decide.evaluateLIC_10());
+        assertTrue(decide.evaluateLIC_3());
     }
 
     @Test
@@ -53,7 +51,7 @@ class DecideTest {
         for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = decide.new Point(0,0);
         }
-        assertFalse(decide.evaluateLIC_10());
+        assertFalse(decide.evaluateLIC_3());
     }
 
     @Test
