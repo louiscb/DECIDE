@@ -9,9 +9,7 @@ public class Decide {
     }
 
     boolean evaluateLIC_0() {
-        for (int i = 0; i < params.points.length; i++) {
-            if (i + 1 == params.points.length)
-                return false;
+        for (int i = 0; i < params.points.length-1; i++) {
             if (params.points[i].distanceTo(params.points[i + 1]) > params.LENGTH1)
                 return true;
         }
@@ -67,8 +65,6 @@ public class Decide {
 
     boolean evaluateLIC_8() {
         if (params.points.length < 5) return false;
-        if (1 > params.A_PTS || 1 > params.B_PTS) return false;
-        if (params.A_PTS + params.B_PTS > params.points.length - 3) return false;
         for (int i = 0; i < params.points.length - params.A_PTS - params.B_PTS - 2; i++) {
             Point a = params.points[i];
             Point b = params.points[i + params.A_PTS + 1];
@@ -146,14 +142,12 @@ public class Decide {
                             c.getX()* (a.getY() - b.getY())));
     }
 
-    boolean launch(boolean[] FUV) {
-        for (int i=0; i<FUV.length; i++) {
-            if (!FUV[i]) {
-                System.out.println("NO");
+    boolean launch() {
+        for (int i = 0; i < params.FUV.length; i++) {
+            if (!params.FUV[i]) {
                 return false;
             }
         }
-        System.out.println("YES");
         return true;
     }
 }

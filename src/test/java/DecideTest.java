@@ -224,7 +224,7 @@ class DecideTest {
         for (int i = 0; i < decide.params.FUV.length; i++) {
             decide.params.FUV[i] = true;
         }
-        assertTrue(decide.launch(decide.params.FUV));
+        assertTrue(decide.launch());
     }
 
     @Test
@@ -234,7 +234,7 @@ class DecideTest {
             decide.params.FUV[i] = true;
         }
         decide.params.FUV[0] = false; 
-        assertFalse(decide.launch(decide.params.FUV));
+        assertFalse(decide.launch());
     }
 
     @Test
