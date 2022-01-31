@@ -267,6 +267,36 @@ class DecideTest {
         assertFalse(decide.evaluateLIC_10());   
     }
 
+    @Test
+    void test_evaluate_LIC_11_true() {
+        Decide decide = new Decide();
+        decide.params.G_PTS = 1;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Create a set of two points (x_i,y_i) and (x_j,y_j), separated by G_PTS consecutive intervening points 
+        // where (x_j - x_i) < 0  and i < j which should be true.
+        decide.params.points[decide.params.points.length - (1 + decide.params.G_PTS + 1)] = decide.new Point(10,1);
+        decide.params.points[decide.params.points.length - 1] = decide.new Point(0,0);
+        assertTrue(decide.evaluateLIC_11());   
+    }
+
+    @Test
+    void test_evaluate_LIC_11_false() {
+        Decide decide = new Decide();
+        decide.params.G_PTS = 1;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Create a set of two points (x_i,y_i) and (x_j,y_j) separated by G_PTS consecutive intervening points
+        // where (x_j - x_i) > 0  and i < j which should be false.
+        decide.params.points[decide.params.points.length - (1 + decide.params.G_PTS + 1)] = decide.new Point(0,1);
+        decide.params.points[decide.params.points.length - 1] = decide.new Point(10,1);
+        assertFalse(decide.evaluateLIC_11());
+    }
+
     // Meets conditions both for radius 1 and radius 2
     @Test
     void test_evaluate_LIC_13_true() {

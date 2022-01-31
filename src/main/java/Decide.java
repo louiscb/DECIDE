@@ -113,6 +113,18 @@ public class Decide {
         return false;
     }
 
+    boolean evaluateLIC_11() {
+        if(params.NUMPOINTS < 3) return false;
+        int j = 0;
+        for (int i = 0; i < params.points.length - (params.G_PTS + 1); i++) {
+            j = i + params.G_PTS + 1; // (i < j) is always true
+            if ((params.points[j].getX() - params.points[i].getX()) < 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     boolean evaluateLIC_13() {
         boolean radius1 = false;
         boolean radius2 = false;
