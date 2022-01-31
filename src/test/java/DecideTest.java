@@ -219,6 +219,60 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_12_true_1() {
+        Decide decide = new Decide();
+        decide.params.K_PTS = 2;
+        decide.params.LENGTH1= 1;
+        decide.params.LENGTH2= 10;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Update two points so that they have a distance greater than LENGTH1, but less than LENGTH2
+        // and are separated by K_PTS
+        decide.params.points[3] = decide.new Point(2,2);
+        decide.params.points[6] = decide.new Point(4,4);
+        assertTrue(decide.evaluateLIC_12());
+    }
+
+    @Test
+    void test_evaluate_LIC_12_true_2() {
+        Decide decide = new Decide();
+        decide.params.K_PTS = 2;
+        decide.params.LENGTH1= 2;
+        decide.params.LENGTH2= 5;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Update two points so that they have a distance greater than LENGTH1 and LENGTH2
+        // and are separated by K_PTS
+        decide.params.points[3] = decide.new Point(2,2);
+        decide.params.points[6] = decide.new Point(10,10);
+        // Update two points so that they have a distance less than LENGTH1 and LENGTH2
+        // and are separated by K_PTS
+        decide.params.points[12] = decide.new Point(2,2);
+        decide.params.points[15] = decide.new Point(3,3);
+        assertTrue(decide.evaluateLIC_12());
+    }
+
+    @Test
+    void test_evaluate_LIC_12_false() {
+        Decide decide = new Decide();
+        decide.params.K_PTS = 2;
+        decide.params.LENGTH1= 4;
+        decide.params.LENGTH2= 5;
+        int increase=0;
+        //set all points so that they are all (including points that are K_PTS apart) separated by a distance 
+        //that is greater than both LENGTH1 and LENGTH2
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(increase ,increase);
+            increase=increase+10;
+        }
+        assertFalse(decide.evaluateLIC_12());
+    }
+
+    @Test
     void test_launch_true() {
         Decide decide = new Decide();
         for (int i = 0; i < decide.params.FUV.length; i++) {
