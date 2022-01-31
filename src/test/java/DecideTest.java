@@ -35,7 +35,7 @@ class DecideTest {
         decide.params.RADIUS1 = 1;
        // set all three consecutive points near each other, within a radius less than 1.
         for (int i = 0; i < decide.params.points.length; i++) {
-            decide.params.points[i] = decide.new Point(i*0.01,i*0.015);
+            decide.params.points[i] = decide.new Point(0,0);
         }
         // change the last three consecutive points so that RADIUS1 is to small 
         decide.params.points[decide.params.points.length-3] = decide.new Point(0,0);
@@ -296,5 +296,42 @@ class DecideTest {
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(3,6), decide.new Point(8,9)), 7);
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(4,8), decide.new Point(16,32)), 0);
     }
+
+    @Test
+     void minCircleRadius() {
+         Decide decide = new Decide();
+
+         Decide.Point a = decide.new Point(-3, 4);
+         Decide.Point b = decide.new Point(4, 5);
+         Decide.Point c = decide.new Point(1, -4);
+         assertEquals(decide.minCircleRadius(a, b, c), 5);
+
+         a = decide.new Point(3, 5);
+         b = decide.new Point(2, 6);
+         c = decide.new Point(-4, -2);
+         assertEquals(decide.minCircleRadius(a, b, c), 5);
+
+         // obtuse triangle, (longest triangle edge)*0.5 should be returned
+         a = decide.new Point(0, 0);
+         b = decide.new Point(4, 0);
+         c = decide.new Point(8, 2);
+         double ab = a.distanceTo(b);
+         double ac = a.distanceTo(c);
+         double bc = b.distanceTo(c);
+         double maxDist = Math.max(ab, Math.max(ac, bc));
+         assertEquals(decide.minCircleRadius(a, b, c), maxDist*0.5);
+
+         // line
+         a = decide.new Point(0, 1);
+         b = decide.new Point(0, 2);
+         c = decide.new Point(0, 3);
+         assertEquals(decide.minCircleRadius(a, b, c), 1);
+
+         // coincide
+         a = decide.new Point(0, 0);
+         b = decide.new Point(0, 0);
+         c = decide.new Point(0, 0);
+         assertEquals(decide.minCircleRadius(a, b, c), -1);
+     }
 
 }
