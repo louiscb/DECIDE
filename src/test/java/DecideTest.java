@@ -106,6 +106,55 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_6_true() {
+        Decide decide = new Decide();
+        decide.params.N_PTS = 3;// three consecutive
+        decide.params.DIST = 1;
+        // set all three consecutive points on the same line which results in the pointToLine distance being 0. 
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // using the last four point 
+        // create two sets of three consecutive points where the distance from the 
+        // the middle point to the line joining the first and the third is 2 which is greater than DIST. 
+        decide.params.points[decide.params.NUMPOINTS - 4] = decide.new Point(0,0);
+        decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(2,2);
+        decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(4,0);
+        decide.params.points[decide.params.NUMPOINTS - 1] = decide.new Point(6,2);
+
+        assertTrue(decide.evaluateLIC_6());
+
+        // using the last three point 
+        // create a set of three consecutive points where the first and third coincide
+        // this results in the distance between the first and the second being 2 which is greater than DIST. 
+        decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(0,0);
+        decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(2,0);
+        decide.params.points[decide.params.NUMPOINTS - 1] = decide.new Point(0,0);
+
+        assertTrue(decide.evaluateLIC_6());
+    }
+
+    @Test
+    void test_evaluate_LIC_6_false() {
+        Decide decide = new Decide();
+        decide.params.N_PTS = 3;
+        decide.params.DIST = 5;
+        // set all points to (0,0) which results in the pointToLine distance being 0. 
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // using the last four point 
+        // create two sets of three consecutive points where the distance from the 
+        // the middle point to the line joining the first and the third is 2 which is less than DIST. 
+        decide.params.points[decide.params.NUMPOINTS - 4] = decide.new Point(0,0);
+        decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(2,2);
+        decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(4,0);
+        decide.params.points[decide.params.NUMPOINTS - 1] = decide.new Point(6,2);
+
+        assertFalse(decide.evaluateLIC_6());
+    }
+
+    @Test
     void test_evaluate_LIC_7_true() {
         Decide decide = new Decide();
         decide.params.K_PTS = 2;
