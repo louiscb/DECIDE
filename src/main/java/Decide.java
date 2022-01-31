@@ -50,6 +50,31 @@ public class Decide {
         return false;
     }
 
+    boolean evaluateLIC_6() {
+        if(params.NUMPOINTS < 3) return false;
+        Point first, last;
+        double distToLine, distFirstToLast;
+        int lastIndex;
+        for (int i = 0; i < params.points.length - (params.N_PTS - 1); i++) {
+            lastIndex = i + params.N_PTS - 1;
+            for (int j = i+1; j < lastIndex; j++) {
+                first = params.points[i];
+                last = params.points[lastIndex];
+                distFirstToLast = first.distanceTo(last);
+                if(distFirstToLast > 0) { // if the first and last points do not coincide
+                    distToLine = (2.0 * triangleArea(first, last, params.points[j])) / distFirstToLast;
+                    if(distToLine > params.DIST) {
+                        return true;
+                    }
+                }
+                else if(first.distanceTo(params.points[j]) > params.DIST) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     boolean evaluateLIC_7(){
         if (params.NUMPOINTS < 3)
             return false;
