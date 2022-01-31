@@ -126,7 +126,7 @@ class DecideTest {
 
         // using the last three point 
         // create a set of three consecutive points where the first and third coincide
-        // this results in the distance between the first and  second being 2 which is greater than DIST. 
+        // this results in the distance between the first and the second being 2 which is greater than DIST. 
         decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(0,0);
         decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(2,0);
         decide.params.points[decide.params.NUMPOINTS - 1] = decide.new Point(0,0);
@@ -145,7 +145,7 @@ class DecideTest {
         }
         // using the last four point 
         // create two sets of three consecutive points where the distance from the 
-        // the middle point to the line joining the first and the third is 2 which is greater than DIST. 
+        // the middle point to the line joining the first and the third is 2 which is less than DIST. 
         decide.params.points[decide.params.NUMPOINTS - 4] = decide.new Point(0,0);
         decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(2,2);
         decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(4,0);
