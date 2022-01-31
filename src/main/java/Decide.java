@@ -97,14 +97,12 @@ public class Decide {
             Point b = params.points[i + params.A_PTS + 1];
             Point c = params.points[i + params.A_PTS + params.B_PTS + 2];
             if (!radius1) {
-                if (a.distanceTo(b) > 2 * params.RADIUS1 ||
-                    b.distanceTo(c) > 2 * params.RADIUS1 ||
-                    c.distanceTo(a) > 2 * params.RADIUS1) radius1 = true;
+                if(minCircleRadius(a, b, c) > params.RADIUS1) 
+                    radius1 = true;
             }
             if (!radius2) {
-                if (a.distanceTo(b) <= 2 * params.RADIUS2 ||
-                    b.distanceTo(c) <= 2 * params.RADIUS2 ||
-                    c.distanceTo(a) <= 2 * params.RADIUS2) radius2 = true;
+                if(minCircleRadius(a, b, c) <= params.RADIUS2) 
+                    radius2 = true;
             }
             if (radius1 && radius2) return true;           
         }
