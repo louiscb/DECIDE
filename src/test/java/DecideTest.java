@@ -35,7 +35,7 @@ class DecideTest {
         decide.params.RADIUS1 = 1;
        // set all three consecutive points near each other, within a radius less than 1.
         for (int i = 0; i < decide.params.points.length; i++) {
-            decide.params.points[i] = decide.new Point(i*0.01,i*0.015);
+            decide.params.points[i] = decide.new Point(0,0);
         }
         // change the last three consecutive points so that RADIUS1 is to small 
         decide.params.points[decide.params.points.length-3] = decide.new Point(0,0);
@@ -54,6 +54,56 @@ class DecideTest {
             decide.params.points[i] = decide.new Point(i*0.01,i*0.015);
         }
         assertFalse(decide.evaluateLIC_1());
+    }
+
+    @Test
+    void test_evaluate_LIC_2_true() {
+        Decide decide = new Decide();
+        decide.params.EPSILON = 2;
+         // Set all points to (0,0)
+         for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        //Change three consecutive points so that they form an angle < (PI-EPSILON)
+        decide.params.points[10] = decide.new Point(50,50);
+        decide.params.points[11] = decide.new Point(51,100);
+        decide.params.points[12] = decide.new Point(52,20);
+        assertTrue(decide.evaluate_LIC_2());
+    }
+
+
+    @Test
+    //Should be false since the three points with index 0, 1 and 3 forms an angle < (PI-EPSILON)
+    //but the points are not consecutive
+    void test_evaluate_LIC_2_false_1() {
+        Decide decide = new Decide();
+        decide.params.EPSILON = 2;
+        decide.params.points[0] = decide.new Point(50,50);
+        decide.params.points[1] = decide.new Point(51,51);
+        decide.params.points[2] = decide.new Point(52,52);
+        decide.params.points[3] = decide.new Point(50.1,50.1);
+        decide.params.points[4] = decide.new Point(52,0);
+        //set the rest of the points to (52,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(52,0);
+        }
+        assertFalse(decide.evaluate_LIC_2());
+    }
+
+    @Test
+    //Should be false since point a and point b, or point b and point c always have the same coordinates
+    void test_evaluate_LIC_2_false_2() {
+        Decide decide = new Decide();
+        decide.params.EPSILON = 2;
+         // Set all points to (0,0)
+         for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        decide.params.points[10] = decide.new Point(50,50);
+        decide.params.points[11] = decide.new Point(50,50);
+        decide.params.points[12] = decide.new Point(50.2,20);
+        decide.params.points[13] = decide.new Point(50.2,20);
+        assertFalse(decide.evaluate_LIC_2());
     }
 
     @Test
@@ -103,6 +153,55 @@ class DecideTest {
         // Move (4,0) to (2.5,0) so that its x-coordinate is lesser than that of the point preceding it.
         decide.params.points[4] = decide.new Point(2.5,0);
         assertTrue(decide.evaluateLIC_5());
+    }
+
+    @Test
+    void test_evaluate_LIC_6_true() {
+        Decide decide = new Decide();
+        decide.params.N_PTS = 3;// three consecutive
+        decide.params.DIST = 1;
+        // set all three consecutive points on the same line which results in the pointToLine distance being 0. 
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // using the last four point 
+        // create two sets of three consecutive points where the distance from the 
+        // the middle point to the line joining the first and the third is 2 which is greater than DIST. 
+        decide.params.points[decide.params.NUMPOINTS - 4] = decide.new Point(0,0);
+        decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(2,2);
+        decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(4,0);
+        decide.params.points[decide.params.NUMPOINTS - 1] = decide.new Point(6,2);
+
+        assertTrue(decide.evaluateLIC_6());
+
+        // using the last three point 
+        // create a set of three consecutive points where the first and third coincide
+        // this results in the distance between the first and the second being 2 which is greater than DIST. 
+        decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(0,0);
+        decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(2,0);
+        decide.params.points[decide.params.NUMPOINTS - 1] = decide.new Point(0,0);
+
+        assertTrue(decide.evaluateLIC_6());
+    }
+
+    @Test
+    void test_evaluate_LIC_6_false() {
+        Decide decide = new Decide();
+        decide.params.N_PTS = 3;
+        decide.params.DIST = 5;
+        // set all points to (0,0) which results in the pointToLine distance being 0. 
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // using the last four point 
+        // create two sets of three consecutive points where the distance from the 
+        // the middle point to the line joining the first and the third is 2 which is less than DIST. 
+        decide.params.points[decide.params.NUMPOINTS - 4] = decide.new Point(0,0);
+        decide.params.points[decide.params.NUMPOINTS - 3] = decide.new Point(2,2);
+        decide.params.points[decide.params.NUMPOINTS - 2] = decide.new Point(4,0);
+        decide.params.points[decide.params.NUMPOINTS - 1] = decide.new Point(6,2);
+
+        assertFalse(decide.evaluateLIC_6());
     }
 
     @Test
@@ -217,7 +316,7 @@ class DecideTest {
         decide.params.points[10 + decide.params.E_PTS + decide.params.F_PTS + 2] = decide.new Point(52,52);
         assertFalse(decide.evaluateLIC_10());   
     }
-
+//hej
     @Test
     void test_evaluate_LIC_12_true_1() {
         Decide decide = new Decide();
@@ -226,14 +325,30 @@ class DecideTest {
         decide.params.LENGTH2= 10;
         // Set all points to (0,0)
         for (int i = 0; i < decide.params.points.length; i++) {
+    decide.params.points[i] = decide.new Point(0,0);
+}
+             // Update two points so that they have a distance greater than LENGTH1, but less than LENGTH2
+             // and are separated by K_PTS
+            decide.params.points[3] = decide.new Point(2,2);
+            decide.params.points[6] = decide.new Point(4,4);
+            assertTrue(decide.evaluateLIC_12());
+        }
+
+    @Test
+    void test_evaluate_LIC_11_true() {
+        Decide decide = new Decide();
+        decide.params.G_PTS = 1;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = decide.new Point(0,0);
         }
-        // Update two points so that they have a distance greater than LENGTH1, but less than LENGTH2
-        // and are separated by K_PTS
-        decide.params.points[3] = decide.new Point(2,2);
-        decide.params.points[6] = decide.new Point(4,4);
-        assertTrue(decide.evaluateLIC_12());
+        // Create a set of two points (x_i,y_i) and (x_j,y_j), separated by G_PTS consecutive intervening points 
+        // where (x_j - x_i) < 0  and i < j which should be true.
+        decide.params.points[decide.params.points.length - (1 + decide.params.G_PTS + 1)] = decide.new Point(10,1);
+        decide.params.points[decide.params.points.length - 1] = decide.new Point(0,0);
+        assertTrue(decide.evaluateLIC_11());   
     }
+    
 
     @Test
     void test_evaluate_LIC_12_true_2() {
@@ -241,7 +356,7 @@ class DecideTest {
         decide.params.K_PTS = 2;
         decide.params.LENGTH1= 2;
         decide.params.LENGTH2= 5;
-        // Set all points to (0,0)
+         // Set all points to (0,0)
         for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = decide.new Point(0,0);
         }
@@ -254,6 +369,21 @@ class DecideTest {
         decide.params.points[12] = decide.new Point(2,2);
         decide.params.points[15] = decide.new Point(3,3);
         assertTrue(decide.evaluateLIC_12());
+    }
+
+    @Test
+    void test_evaluate_LIC_11_false() {
+        Decide decide = new Decide();
+        decide.params.G_PTS = 1;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Create a set of two points (x_i,y_i) and (x_j,y_j) separated by G_PTS consecutive intervening points
+        // where (x_j - x_i) > 0  and i < j which should be false.
+        decide.params.points[decide.params.points.length - (1 + decide.params.G_PTS + 1)] = decide.new Point(0,1);
+        decide.params.points[decide.params.points.length - 1] = decide.new Point(10,1);
+        assertFalse(decide.evaluateLIC_11());
     }
 
     @Test
@@ -270,6 +400,65 @@ class DecideTest {
             increase=increase+10;
         }
         assertFalse(decide.evaluateLIC_12());
+    }
+
+    // Meets conditions both for radius 1 and radius 2
+    @Test
+    void test_evaluate_LIC_13_true() {
+        Decide decide = new Decide();
+        decide.params.A_PTS = 10;
+        decide.params.B_PTS =30;
+        decide.params.RADIUS1 = 20;
+        decide.params.RADIUS2 = 10;
+        // Set all points to (0.1*i,0.1*i).  
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0.1*i,0.1*i);
+        }
+        decide.params.points[11] = decide.new Point(50,0);
+        decide.params.points[42] = decide.new Point(50,25);
+    }
+
+    // Meets only condition for radius 1
+    @Test
+    void test_evaluate_LIC_13_false_1() {
+         Decide decide = new Decide();
+         decide.params.A_PTS = 10;
+         decide.params.B_PTS = 30;
+         decide.params.RADIUS1 = 10;
+         decide.params.RADIUS2 = 0.1;
+         // Set all points to (i,i).  
+         for (int i = 0; i < decide.params.points.length; i++) {
+             decide.params.points[i] = decide.new Point(i,i);
+         }
+    }
+
+    // Meets only condition for radius 2
+    @Test
+    void test_evaluate_LIC_13_false_2() {
+         Decide decide = new Decide();
+         decide.params.A_PTS = 20;
+         decide.params.B_PTS = 30;
+         decide.params.RADIUS1 = 1000;
+         decide.params.RADIUS2 = 100;
+         // Set all points to (2i,2i).  
+         for (int i = 0; i < decide.params.points.length; i++) {
+             decide.params.points[i] = decide.new Point(i,i);
+         }
+    }
+
+    // None of the conditions are met
+    @Test
+    void test_evaluate_LIC_13_false_3() {
+         Decide decide = new Decide();
+         decide.params.A_PTS = 2;
+         decide.params.B_PTS = 3;
+         decide.params.RADIUS1 = 1000;
+         decide.params.RADIUS2 = 0.1;
+         // Set all points to (2i,2i).  
+         for (int i = 0; i < decide.params.points.length; i++) {
+             decide.params.points[i] = decide.new Point(i,i);
+         }
+
     }
 
     @Test
@@ -350,5 +539,42 @@ class DecideTest {
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(3,6), decide.new Point(8,9)), 7);
         assertEquals(decide.triangleArea(decide.new Point(1,2), decide.new Point(4,8), decide.new Point(16,32)), 0);
     }
+
+    @Test
+     void minCircleRadius() {
+         Decide decide = new Decide();
+
+         Decide.Point a = decide.new Point(-3, 4);
+         Decide.Point b = decide.new Point(4, 5);
+         Decide.Point c = decide.new Point(1, -4);
+         assertEquals(decide.minCircleRadius(a, b, c), 5);
+
+         a = decide.new Point(3, 5);
+         b = decide.new Point(2, 6);
+         c = decide.new Point(-4, -2);
+         assertEquals(decide.minCircleRadius(a, b, c), 5);
+
+         // obtuse triangle, (longest triangle edge)*0.5 should be returned
+         a = decide.new Point(0, 0);
+         b = decide.new Point(4, 0);
+         c = decide.new Point(8, 2);
+         double ab = a.distanceTo(b);
+         double ac = a.distanceTo(c);
+         double bc = b.distanceTo(c);
+         double maxDist = Math.max(ab, Math.max(ac, bc));
+         assertEquals(decide.minCircleRadius(a, b, c), maxDist*0.5);
+
+         // line
+         a = decide.new Point(0, 1);
+         b = decide.new Point(0, 2);
+         c = decide.new Point(0, 3);
+         assertEquals(decide.minCircleRadius(a, b, c), 1);
+
+         // coincide
+         a = decide.new Point(0, 0);
+         b = decide.new Point(0, 0);
+         c = decide.new Point(0, 0);
+         assertEquals(decide.minCircleRadius(a, b, c), -1);
+     }
 
 }
