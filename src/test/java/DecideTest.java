@@ -94,7 +94,6 @@ class DecideTest {
             multiplier = multiplier * -1;
 
             decide.params.points[i] = decide.new Point(x, y);
-            decide.params.points[i].printPoint();
         }
 
         decide.params.QUADS = 3;
