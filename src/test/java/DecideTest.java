@@ -108,7 +108,6 @@ class DecideTest {
 
         for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = decide.new Point(i, i);
-            decide.params.points[i].printPoint();
         }
 
         decide.params.QUADS = 4;
@@ -389,6 +388,64 @@ class DecideTest {
          for (int i = 0; i < decide.params.points.length; i++) {
              decide.params.points[i] = decide.new Point(i,i);
          }
+    }
+
+
+    @Test
+    void test_evaluate_LIC_14_true() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 0;
+        decide.params.F_PTS = 0;
+        decide.params.AREA1 = 5;
+        decide.params.AREA2 = 19;
+
+        int[] triangle = {0, 6, 6, 6, 6, 0};
+        int i = 0;
+        // Set all points to (0,6), (6,6), (6,0) which gives area 18
+        for (int j = 0; j < decide.params.points.length; j++) {
+            decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
+            i = (i + 2) % triangle.length;
+        }
+
+        assertTrue(decide.evaluateLIC_14());
+    }
+
+    @Test
+    void test_evaluate_LIC_14_false_due_to_area1() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 0;
+        decide.params.F_PTS = 0;
+        decide.params.AREA1 = 20;
+        decide.params.AREA2 = 19;
+
+        int[] triangle = {0, 6, 6, 6, 6, 0};
+        int i = 0;
+        // Set all points to (0,5), (5,5), (5,0)
+        for (int j = 0; j < decide.params.points.length; j++) {
+            decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
+            i = (i + 2) % triangle.length;
+        }
+
+        assertFalse(decide.evaluateLIC_14());
+    }
+
+    @Test
+    void test_evaluate_LIC_14_false_due_to_area2() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 0;
+        decide.params.F_PTS = 0;
+        decide.params.AREA1 = 5;
+        decide.params.AREA2 = 17;
+
+        int[] triangle = {0, 6, 6, 6, 6, 0};
+        int i = 0;
+        // Set all points to (0,5), (5,5), (5,0)
+        for (int j = 0; j < decide.params.points.length; j++) {
+            decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
+            i = (i + 2) % triangle.length;
+        }
+
+        assertFalse(decide.evaluateLIC_14());
     }
 
     @Test

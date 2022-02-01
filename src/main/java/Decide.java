@@ -184,6 +184,26 @@ public class Decide {
         return false;
     }
 
+    boolean evaluateLIC_14() {
+        if (params.points.length < 5)
+            return false;
+
+        boolean isLessThanArea2 = false;
+
+        for (int i = 0; i < params.points.length - params.E_PTS - params.F_PTS - 2; i++) {
+            Point a = params.points[i];
+            Point b = params.points[i + params.E_PTS + 1];
+            Point c = params.points[i + params.E_PTS + params.F_PTS + 2];
+
+            if (triangleArea(a, b, c) < params.AREA2) {
+                isLessThanArea2 = true;
+                break;
+            }
+        }
+
+        return isLessThanArea2 && evaluateLIC_10();
+    }
+
     void generatePUM() { 
         for (int i = 0; i < params.PUM.length; i++) {
             for (int j = 0; j < params.PUM.length; j++) {
