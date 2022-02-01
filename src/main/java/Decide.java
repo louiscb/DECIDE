@@ -89,19 +89,19 @@ public class Decide {
     }
     
     boolean evaluateLIC_12(){
-        int makeTrue1=0;
-        int makeTrue2=0;
-        if((params.LENGTH2 < 0) || (params.NUMPOINTS < 3))
+        boolean greaterThan = false;
+        boolean lessThan = false;
+        if (params.NUMPOINTS < 3)
             return false;
-        for (int i=0; i<params.points.length - params.K_PTS - 1; i++){
+        for (int i = 0; i < params.points.length - params.K_PTS - 1; i++){
             Point point1 = params.points[i];
             Point point2 = params.points[i + params.K_PTS + 1];
-             if(point1.distanceTo(point2)>params.LENGTH1)
-                 makeTrue1++;
-            if(point1.distanceTo(point2)<params.LENGTH2)
-                makeTrue2++;
-             if(makeTrue1>0 && makeTrue2 >0)
-                 return true;
+            if (point1.distanceTo(point2) > params.LENGTH1)
+                greaterThan = true;
+            if (point1.distanceTo(point2) < params.LENGTH2)
+                lessThan = true;
+            if (greaterThan && lessThan)
+                return true;
         }
         return false;
     }
