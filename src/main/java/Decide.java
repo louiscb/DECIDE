@@ -1,8 +1,17 @@
 import java.lang.Math;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Decide {
     Parameters params = new Parameters();
+
+    final static int QUADRANT_1 = 1;
+    final static int QUADRANT_2 = 2;
+    final static int QUADRANT_3 = 3;
+    final static int QUADRANT_4 = 4;
+
     public static void main(String[] args) {
         Decide decide = new Decide();
         System.out.println(decide.triangleArea(decide.new Point(0, 0), decide.new Point(1,0), decide.new Point(2,2)));
@@ -55,6 +64,35 @@ public class Decide {
             if (triangleArea(a,b,c) > params.AREA1)
                 return true;
         }
+        return false;
+    }
+
+    boolean evaluateLIC_4() {
+        if (! (2 <= params.Q_PTS || params.Q_PTS <= params.NUMPOINTS || 1 <= params.QUADS || params.QUADS <= 3))
+            return false;
+
+        HashMap<Integer, Integer> quadrantCount = new HashMap<>();
+        Queue<Integer> currentConsecutiveQueue = new LinkedList<>();
+
+        for (Point point: params.points) {
+            if (currentConsecutiveQueue.size() >= params.Q_PTS && quadrantCount.keySet().size() > params.QUADS)
+                return true;
+
+            if (currentConsecutiveQueue.size() < params.Q_PTS) {
+                currentConsecutiveQueue.add(point.quadrantNumber());
+                int count = quadrantCount.getOrDefault(point.quadrantNumber(), 0);
+                quadrantCount.put(point.quadrantNumber(), count + 1);
+            } else {
+                int removedQuadrantNumber = currentConsecutiveQueue.remove();
+                int count = quadrantCount.get(removedQuadrantNumber);
+
+                if (count - 1 <= 0)
+                    quadrantCount.remove(removedQuadrantNumber);
+                else
+                    quadrantCount.put(removedQuadrantNumber, count - 1);
+            }
+        }
+
         return false;
     }
 
@@ -182,6 +220,26 @@ public class Decide {
         return false;
     }
 
+    boolean evaluateLIC_14() {
+        if (params.points.length < 5)
+            return false;
+
+        boolean isLessThanArea2 = false;
+
+        for (int i = 0; i < params.points.length - params.E_PTS - params.F_PTS - 2; i++) {
+            Point a = params.points[i];
+            Point b = params.points[i + params.E_PTS + 1];
+            Point c = params.points[i + params.E_PTS + params.F_PTS + 2];
+
+            if (triangleArea(a, b, c) < params.AREA2) {
+                isLessThanArea2 = true;
+                break;
+            }
+        }
+
+        return isLessThanArea2 && evaluateLIC_10();
+    }
+
     void generatePUM() { 
         for (int i = 0; i < params.PUM.length; i++) {
             for (int j = 0; j < params.PUM.length; j++) {
@@ -224,6 +282,18 @@ public class Decide {
 
         double getX() { return this.x; }
         double getY() { return this.y; }
+
+        int quadrantNumber() {
+            if (this.x >= 0 && this.y >= 0)
+                return QUADRANT_1;
+            if (this.x < 0 && this.y >= 0)
+                return QUADRANT_2;
+            if (this.x <= 0 && this.y < 0)
+                return QUADRANT_3;
+
+            // if this.x < 0 && this.y >= 0
+            return QUADRANT_4;
+        }
 
         double distanceTo(Point b) {
             return Math.hypot(this.getX() - b.getX(), this.getY() - b.getY());

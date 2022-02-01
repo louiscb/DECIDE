@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DecideTest {
+
     @Test 
     void test_evaluate_LIC_0_consecutive() {
         Decide decide = new Decide();
@@ -129,6 +130,38 @@ class DecideTest {
             decide.params.points[i] = decide.new Point(0,0);
         }
         assertFalse(decide.evaluateLIC_3());
+    }
+
+    @Test
+    void test_evaluate_LIC_4_true() {
+        Decide decide = new Decide();
+
+        // Put points on (0,0), (-1,1), (-2, -2), (3, -3)
+        int[] triangle = {0, 0, -1, 1, -2, -2, 3, -3};
+        int j = 0;
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(triangle[j], triangle[j+1]);
+            j = (j + 2) % triangle.length;
+        }
+
+        decide.params.QUADS = 3;
+        decide.params.Q_PTS = 50;
+
+        assertTrue(decide.evaluateLIC_4());
+    }
+
+    @Test
+    void test_evaluate_LIC_4_false() {
+        Decide decide = new Decide();
+
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(i, i);
+        }
+
+        decide.params.QUADS = 3;
+        decide.params.Q_PTS = 50;
+
+        assertFalse(decide.evaluateLIC_4());
     }
 
     @Test
@@ -459,6 +492,63 @@ class DecideTest {
              decide.params.points[i] = decide.new Point(i,i);
          }
 
+    }
+
+
+    @Test
+    void test_evaluate_LIC_14_true() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 0;
+        decide.params.F_PTS = 0;
+        decide.params.AREA1 = 5;
+        decide.params.AREA2 = 19;
+
+        int[] triangle = {0, 6, 6, 6, 6, 0};
+        int i = 0;
+        // Set all points to (0,6), (6,6), (6,0) which gives area 18
+        for (int j = 0; j < decide.params.points.length; j++) {
+            decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
+            i = (i + 2) % triangle.length;
+        }
+
+        assertTrue(decide.evaluateLIC_14());
+    }
+
+    @Test
+    void test_evaluate_LIC_14_false_due_to_area1() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 0;
+        decide.params.F_PTS = 0;
+        decide.params.AREA1 = 20;
+        decide.params.AREA2 = 19;
+
+        // sets points to (0,6) (6,6) (6,0) iteratively
+        int[] triangle = {0, 6, 6, 6, 6, 0};
+        int i = 0;
+        for (int j = 0; j < decide.params.points.length; j++) {
+            decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
+            i = (i + 2) % triangle.length;
+        }
+
+        assertFalse(decide.evaluateLIC_14());
+    }
+
+    @Test
+    void test_evaluate_LIC_14_false_due_to_area2() {
+        Decide decide = new Decide();
+        decide.params.E_PTS = 0;
+        decide.params.F_PTS = 0;
+        decide.params.AREA1 = 5;
+        decide.params.AREA2 = 17;
+
+        int[] triangle = {0, 6, 6, 6, 6, 0};
+        int i = 0;
+        for (int j = 0; j < decide.params.points.length; j++) {
+            decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
+            i = (i + 2) % triangle.length;
+        }
+
+        assertFalse(decide.evaluateLIC_14());
     }
 
     @Test
