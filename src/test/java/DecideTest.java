@@ -284,56 +284,48 @@ class DecideTest {
     }
 
     @Test
-    void test_evaluate_LIC_9_false_params_C_PTS() {
+    void test_evaluate_LIC_9_false() {
         Decide decide = new Decide();
         decide.params.EPSILON = 2;
-        decide.params.C_PTS = 0;
+        decide.params.C_PTS = 1;
         decide.params.D_PTS = 1;
 
         // Set all points to (0,0)
         for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = decide.new Point(0,0);
         }
-        //Change three consecutive points plus C_PTS and D_PTS so that they form an angle < (PI-EPSILON)
+        //Change three consecutive points plus C_PTS and D_PTS so that they form an angle > (PI-EPSILON)
         decide.params.points[10] = decide.new Point(50,50);
-        decide.params.points[12] = decide.new Point(51,100);
-        decide.params.points[13] = decide.new Point(52,20);
+        decide.params.points[12] = decide.new Point(50,50);
+        decide.params.points[13] = decide.new Point(50,50);
+
+        assertFalse(decide.evaluate_LIC_9());
+    }
+
+    @Test
+    void test_evaluate_LIC_9_false_params_C_PTS() {
+        Decide decide = new Decide();
+        decide.params.C_PTS = 0;
+        decide.params.D_PTS = 1;
+
         assertFalse(decide.evaluate_LIC_9());
     }
 
     @Test
     void test_evaluate_LIC_9_false_params_D_PTS() {
         Decide decide = new Decide();
-        decide.params.EPSILON = 2;
         decide.params.C_PTS = 1;
         decide.params.D_PTS = 0;
 
-        // Set all points to (0,0)
-        for (int i = 0; i < decide.params.points.length; i++) {
-            decide.params.points[i] = decide.new Point(0,0);
-        }
-        //Change three consecutive points plus C_PTS and D_PTS so that they form an angle < (PI-EPSILON)
-        decide.params.points[10] = decide.new Point(50,50);
-        decide.params.points[12] = decide.new Point(51,100);
-        decide.params.points[13] = decide.new Point(52,20);
         assertFalse(decide.evaluate_LIC_9());
     }
 
     @Test
     void test_evaluate_LIC_9_false_params_D_PTS_And_C_PTS() {
         Decide decide = new Decide();
-        decide.params.EPSILON = 2;
         decide.params.C_PTS = 52;
         decide.params.D_PTS = 52;
 
-        // Set all points to (0,0)
-        for (int i = 0; i < decide.params.points.length; i++) {
-            decide.params.points[i] = decide.new Point(0,0);
-        }
-        //Change three consecutive points plus C_PTS and D_PTS so that they form an angle < (PI-EPSILON)
-        decide.params.points[10] = decide.new Point(50,50);
-        decide.params.points[12] = decide.new Point(51,100);
-        decide.params.points[13] = decide.new Point(52,20);
         assertFalse(decide.evaluate_LIC_9());
     }
 
