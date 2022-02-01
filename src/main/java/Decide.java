@@ -54,18 +54,18 @@ public class Decide {
             return false;
 
         HashMap<Integer, Integer> quadrantCount = new HashMap<>();
-        Queue<Integer> currentConsequitiveQueue = new LinkedList<>();
+        Queue<Integer> currentConsecutiveQueue = new LinkedList<>();
 
         for (Point point: params.points) {
-            if (currentConsequitiveQueue.size() >= params.Q_PTS && quadrantCount.keySet().size() > params.QUADS)
+            if (currentConsecutiveQueue.size() >= params.Q_PTS && quadrantCount.keySet().size() > params.QUADS)
                 return true;
 
-            if (currentConsequitiveQueue.size() < params.Q_PTS) {
-                currentConsequitiveQueue.add(point.quadrantNumber());
+            if (currentConsecutiveQueue.size() < params.Q_PTS) {
+                currentConsecutiveQueue.add(point.quadrantNumber());
                 int count = quadrantCount.getOrDefault(point.quadrantNumber(), 0);
                 quadrantCount.put(point.quadrantNumber(), count + 1);
             } else {
-                int removedQuadrantNumber = currentConsequitiveQueue.remove();
+                int removedQuadrantNumber = currentConsecutiveQueue.remove();
                 int count = quadrantCount.get(removedQuadrantNumber);
 
                 if (count - 1 <= 0)
