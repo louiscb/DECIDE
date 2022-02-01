@@ -519,6 +519,8 @@ class ComputationsTest {
         }
         decide.params.points[11] = new Point(50,0);
         decide.params.points[42] = new Point(50,25);
+
+        assertTrue(decide.evaluateLIC_13());
     }
 
     // Meets only condition for radius 1
@@ -533,6 +535,8 @@ class ComputationsTest {
          for (int i = 0; i < decide.params.points.length; i++) {
              decide.params.points[i] = new Point(i,i);
          }
+
+        assertFalse(decide.evaluateLIC_13());
     }
 
     // Meets only condition for radius 2
@@ -547,6 +551,8 @@ class ComputationsTest {
          for (int i = 0; i < decide.params.points.length; i++) {
              decide.params.points[i] = new Point(i,i);
          }
+
+        assertFalse(decide.evaluateLIC_13());
     }
 
     // None of the conditions are met
@@ -562,8 +568,8 @@ class ComputationsTest {
              decide.params.points[i] = new Point(i,i);
          }
 
+        assertFalse(decide.evaluateLIC_13());
     }
-
 
     @Test
     void test_evaluate_LIC_14_true() {
