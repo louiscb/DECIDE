@@ -50,25 +50,28 @@ public class Decide {
     }
 
     boolean evaluateLIC_4() {
-        HashMap<Integer, Integer> quadCount = new HashMap<>();
-        Queue<Integer> queueQuandrant = new LinkedList<>();
+        if (! (2 <= params.Q_PTS || params.Q_PTS <= params.NUMPOINTS || 1 <= params.QUADS || params.QUADS <= 3))
+            return false;
 
-        for (Point p: params.points) {
-            System.out.println("quadrant " + p.quadrantNumber());
-            if (queueQuandrant.size() >= params.Q_PTS && quadCount.keySet().size() >= params.QUADS) {
+        HashMap<Integer, Integer> quadrantCount = new HashMap<>();
+        Queue<Integer> currentConsequitiveQueue = new LinkedList<>();
+
+        for (Point point: params.points) {
+            if (currentConsequitiveQueue.size() >= params.Q_PTS && quadrantCount.keySet().size() > params.QUADS)
                 return true;
-            } else if (queueQuandrant.size() < params.Q_PTS) {
-                queueQuandrant.add(p.quadrantNumber());
-                int count = quadCount.getOrDefault(p.quadrantNumber(), 0);
-                quadCount.put(p.quadrantNumber(), count + 1);
+
+            if (currentConsequitiveQueue.size() < params.Q_PTS) {
+                currentConsequitiveQueue.add(point.quadrantNumber());
+                int count = quadrantCount.getOrDefault(point.quadrantNumber(), 0);
+                quadrantCount.put(point.quadrantNumber(), count + 1);
             } else {
-                int removedQuadrantNumber = queueQuandrant.remove();
-                int count = quadCount.get(removedQuadrantNumber);
+                int removedQuadrantNumber = currentConsequitiveQueue.remove();
+                int count = quadrantCount.get(removedQuadrantNumber);
 
                 if (count - 1 <= 0)
-                    quadCount.remove(removedQuadrantNumber);
+                    quadrantCount.remove(removedQuadrantNumber);
                 else
-                    quadCount.put(removedQuadrantNumber, count - 1);
+                    quadrantCount.put(removedQuadrantNumber, count - 1);
             }
         }
 

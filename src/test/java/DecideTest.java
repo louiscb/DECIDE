@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DecideTest {
+
     @Test 
     void test_evaluate_LIC_0_consecutive() {
         Decide decide = new Decide();
@@ -96,7 +97,7 @@ class DecideTest {
             decide.params.points[i].printPoint();
         }
 
-        decide.params.QUADS = 4;
+        decide.params.QUADS = 3;
         decide.params.Q_PTS = 50;
 
         assertTrue(decide.evaluateLIC_4());
