@@ -44,7 +44,6 @@ public class Decide {
                 return true;
         }
         return false;
-    
     }
 
     boolean evaluateLIC_3() {
@@ -117,6 +116,28 @@ public class Decide {
             }
         }
         return false;
+    }
+
+    boolean evaluate_LIC_9(){
+        if (params.C_PTS < 1 || params.D_PTS < 1 || params.C_PTS + params.D_PTS > params.points.length - 3
+                || params.points.length < 5)
+            return false;
+
+        for (int i = 0; i < params.points.length-2 - params.C_PTS - params.D_PTS; i++){
+            Point a = params.points[i];
+            Point b = params.points[i+1 + params.C_PTS];
+            Point c = params.points[i+2 + params.D_PTS];
+            if ((a.getX()==b.getX() && a.getY()==b.getY()) || (b.getX()==c.getX() && b.getY()==c.getY()))
+                continue;
+            double ab = a.distanceTo(b);
+            double bc = b.distanceTo(c);
+            double ac = a.distanceTo(c);
+            double angle = Math.acos((Math.pow(ab,2)+Math.pow(ac,2)-Math.pow(bc,2))/(2*ab*ac));
+            if (angle < params.PI - params.EPSILON || angle > params.PI - params.EPSILON )
+                return true;
+        }
+        return false;
+
     }
 
     boolean evaluateLIC_10() {
