@@ -30,22 +30,17 @@ public class Decide {
     }
 
     boolean evaluate_LIC_2(){
-        if(!(0<=params.EPSILON && params.EPSILON <= params.PI))
-            return false;
-        for (int i=0; i < params.points.length-2; i++){
-            Point point1 = params.points[i];
-            Point point2Vertex = params.points[i+1];
-            Point point3 = params.points[i+2];
-            if((point1.getX()==point2Vertex.getX() && point1.getY()==point2Vertex.getY())
-            || (point2Vertex.getX()==point3.getX() && point2Vertex.getY()==point3.getY())){
+        for (int i = 0; i < params.points.length-2; i++){
+            Point a = params.points[i];
+            Point b = params.points[i+1];
+            Point c = params.points[i+2];
+            if ((a.getX()==b.getX() && a.getY()==b.getY()) || (b.getX()==c.getX() && b.getY()==c.getY()))
                 continue;
-            }
-            double distPoint12 = point1.distanceTo(point2Vertex);
-            double distPoint23 = point2Vertex.distanceTo(point3);
-            double distPoint13 = point1.distanceTo(point3);
-            if((Math.acos((Math.pow(distPoint12,2)+Math.pow(distPoint13,2)-Math.pow(distPoint23,2))/(2*distPoint12*distPoint13))) < (params.PI - params.EPSILON))
-                return true;
-            if((Math.acos((Math.pow(distPoint12,2)+Math.pow(distPoint13,2)-Math.pow(distPoint23,2))/(2*distPoint12*distPoint13))) > (params.PI + params.EPSILON))
+            double ab = a.distanceTo(b);
+            double bc = b.distanceTo(c);
+            double ac = a.distanceTo(c);
+            double angle = Math.acos((Math.pow(ab,2)+Math.pow(ac,2)-Math.pow(bc,2))/(2*ab*ac));
+            if (angle < params.PI - params.EPSILON || angle > params.PI - params.EPSILON )
                 return true;
         }
         return false;

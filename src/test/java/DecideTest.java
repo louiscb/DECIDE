@@ -71,26 +71,11 @@ class DecideTest {
         assertTrue(decide.evaluate_LIC_2());
     }
 
-    @Test
-    //Should be false since EPSILON > PI
-    void test_evaluate_LIC_2_false_1() {
-        Decide decide = new Decide();
-        decide.params.EPSILON = 4;
-         // Set all points to (0,0)
-         for (int i = 0; i < decide.params.points.length; i++) {
-            decide.params.points[i] = decide.new Point(0,0);
-        }
-        //Change three consecutive points so that they form an angle < (PI-EPSILON)
-        decide.params.points[10] = decide.new Point(50,50);
-        decide.params.points[11] = decide.new Point(50.1,100);
-        decide.params.points[12] = decide.new Point(50.2,20);
-        assertFalse(decide.evaluate_LIC_2());
-    }
 
     @Test
     //Should be false since the three points with index 0, 1 and 3 forms an angle < (PI-EPSILON)
     //but the points are not consecutive
-    void test_evaluate_LIC_2_false_2() {
+    void test_evaluate_LIC_2_false_1() {
         Decide decide = new Decide();
         decide.params.EPSILON = 2;
         decide.params.points[0] = decide.new Point(50,50);
@@ -106,8 +91,8 @@ class DecideTest {
     }
 
     @Test
-    //Should be false since point 1 and point 2, or point 2 and point 3 always have the same coordinates
-    void test_evaluate_LIC_2_false_3() {
+    //Should be false since point a and point b, or point b and point c always have the same coordinates
+    void test_evaluate_LIC_2_false_2() {
         Decide decide = new Decide();
         decide.params.EPSILON = 2;
          // Set all points to (0,0)
