@@ -316,23 +316,6 @@ class DecideTest {
         decide.params.points[10 + decide.params.E_PTS + decide.params.F_PTS + 2] = decide.new Point(52,52);
         assertFalse(decide.evaluateLIC_10());   
     }
-//hej
-    @Test
-    void test_evaluate_LIC_12_true_1() {
-        Decide decide = new Decide();
-        decide.params.K_PTS = 2;
-        decide.params.LENGTH1= 1;
-        decide.params.LENGTH2= 10;
-        // Set all points to (0,0)
-        for (int i = 0; i < decide.params.points.length; i++) {
-    decide.params.points[i] = decide.new Point(0,0);
-}
-             // Update two points so that they have a distance greater than LENGTH1, but less than LENGTH2
-             // and are separated by K_PTS
-            decide.params.points[3] = decide.new Point(2,2);
-            decide.params.points[6] = decide.new Point(4,4);
-            assertTrue(decide.evaluateLIC_12());
-        }
 
     @Test
     void test_evaluate_LIC_11_true() {
@@ -348,8 +331,40 @@ class DecideTest {
         decide.params.points[decide.params.points.length - 1] = decide.new Point(0,0);
         assertTrue(decide.evaluateLIC_11());   
     }
-    
 
+    @Test
+    void test_evaluate_LIC_11_false() {
+        Decide decide = new Decide();
+        decide.params.G_PTS = 1;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Create a set of two points (x_i,y_i) and (x_j,y_j) separated by G_PTS consecutive intervening points
+        // where (x_j - x_i) > 0  and i < j which should be false.
+        decide.params.points[decide.params.points.length - (1 + decide.params.G_PTS + 1)] = decide.new Point(0,1);
+        decide.params.points[decide.params.points.length - 1] = decide.new Point(10,1);
+        assertFalse(decide.evaluateLIC_11());
+    }
+
+    @Test
+    void test_evaluate_LIC_12_true_1() {
+        Decide decide = new Decide();
+        decide.params.K_PTS = 2;
+        decide.params.LENGTH1= 1;
+        decide.params.LENGTH2= 10;
+        // Set all points to (0,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        // Update two points so that they have a distance greater than LENGTH1, but less than LENGTH2
+        // and are separated by K_PTS
+        decide.params.points[3] = decide.new Point(2,2);
+        decide.params.points[6] = decide.new Point(4,4);
+        assertTrue(decide.evaluateLIC_12());
+        }
+
+  
     @Test
     void test_evaluate_LIC_12_true_2() {
         Decide decide = new Decide();
@@ -369,21 +384,6 @@ class DecideTest {
         decide.params.points[12] = decide.new Point(2,2);
         decide.params.points[15] = decide.new Point(3,3);
         assertTrue(decide.evaluateLIC_12());
-    }
-
-    @Test
-    void test_evaluate_LIC_11_false() {
-        Decide decide = new Decide();
-        decide.params.G_PTS = 1;
-        // Set all points to (0,0)
-        for (int i = 0; i < decide.params.points.length; i++) {
-            decide.params.points[i] = decide.new Point(0,0);
-        }
-        // Create a set of two points (x_i,y_i) and (x_j,y_j) separated by G_PTS consecutive intervening points
-        // where (x_j - x_i) > 0  and i < j which should be false.
-        decide.params.points[decide.params.points.length - (1 + decide.params.G_PTS + 1)] = decide.new Point(0,1);
-        decide.params.points[decide.params.points.length - 1] = decide.new Point(10,1);
-        assertFalse(decide.evaluateLIC_11());
     }
 
     @Test
