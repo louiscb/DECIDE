@@ -57,6 +57,56 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_2_true() {
+        Decide decide = new Decide();
+        decide.params.EPSILON = 2;
+         // Set all points to (0,0)
+         for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        //Change three consecutive points so that they form an angle < (PI-EPSILON)
+        decide.params.points[10] = decide.new Point(50,50);
+        decide.params.points[11] = decide.new Point(51,100);
+        decide.params.points[12] = decide.new Point(52,20);
+        assertTrue(decide.evaluate_LIC_2());
+    }
+
+
+    @Test
+    //Should be false since the three points with index 0, 1 and 3 forms an angle < (PI-EPSILON)
+    //but the points are not consecutive
+    void test_evaluate_LIC_2_false_1() {
+        Decide decide = new Decide();
+        decide.params.EPSILON = 2;
+        decide.params.points[0] = decide.new Point(50,50);
+        decide.params.points[1] = decide.new Point(51,51);
+        decide.params.points[2] = decide.new Point(52,52);
+        decide.params.points[3] = decide.new Point(50.1,50.1);
+        decide.params.points[4] = decide.new Point(52,0);
+        //set the rest of the points to (52,0)
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(52,0);
+        }
+        assertFalse(decide.evaluate_LIC_2());
+    }
+
+    @Test
+    //Should be false since point a and point b, or point b and point c always have the same coordinates
+    void test_evaluate_LIC_2_false_2() {
+        Decide decide = new Decide();
+        decide.params.EPSILON = 2;
+         // Set all points to (0,0)
+         for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(0,0);
+        }
+        decide.params.points[10] = decide.new Point(50,50);
+        decide.params.points[11] = decide.new Point(50,50);
+        decide.params.points[12] = decide.new Point(50.2,20);
+        decide.params.points[13] = decide.new Point(50.2,20);
+        assertFalse(decide.evaluate_LIC_2());
+    }
+
+    @Test
     void test_evaluate_LIC_3_true() {
         Decide decide = new Decide();
         decide.params.AREA1 = 5;

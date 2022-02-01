@@ -29,6 +29,24 @@ public class Decide {
         return false;
     }
 
+    boolean evaluate_LIC_2(){
+        for (int i = 0; i < params.points.length-2; i++){
+            Point a = params.points[i];
+            Point b = params.points[i+1];
+            Point c = params.points[i+2];
+            if ((a.getX()==b.getX() && a.getY()==b.getY()) || (b.getX()==c.getX() && b.getY()==c.getY()))
+                continue;
+            double ab = a.distanceTo(b);
+            double bc = b.distanceTo(c);
+            double ac = a.distanceTo(c);
+            double angle = Math.acos((Math.pow(ab,2)+Math.pow(ac,2)-Math.pow(bc,2))/(2*ab*ac));
+            if (angle < params.PI - params.EPSILON || angle > params.PI - params.EPSILON )
+                return true;
+        }
+        return false;
+    
+    }
+
     boolean evaluateLIC_3() {
         for (int i = 0; i < params.points.length - 2; i++) {
             Point a = params.points[i];
