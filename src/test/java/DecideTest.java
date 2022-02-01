@@ -86,7 +86,7 @@ class DecideTest {
     void test_evaluate_LIC_4_true() {
         Decide decide = new Decide();
 
-        // Put points on (0,0), (-1,1), (-2, -2), (3, -3), (4, 4)..
+        // Put points on (0,0), (-1,1), (-2, -2), (3, -3)
         int[] triangle = {0, 0, -1, 1, -2, -2, 3, -3};
         int j = 0;
         for (int i = 0; i < decide.params.points.length; i++) {
@@ -416,9 +416,9 @@ class DecideTest {
         decide.params.AREA1 = 20;
         decide.params.AREA2 = 19;
 
+        // sets points to (0,6) (6,6) (6,0) iteratively
         int[] triangle = {0, 6, 6, 6, 6, 0};
         int i = 0;
-        // Set all points to (0,5), (5,5), (5,0)
         for (int j = 0; j < decide.params.points.length; j++) {
             decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
             i = (i + 2) % triangle.length;
@@ -437,7 +437,6 @@ class DecideTest {
 
         int[] triangle = {0, 6, 6, 6, 6, 0};
         int i = 0;
-        // Set all points to (0,5), (5,5), (5,0)
         for (int j = 0; j < decide.params.points.length; j++) {
             decide.params.points[j] = decide.new Point(triangle[i],triangle[i+1]);
             i = (i + 2) % triangle.length;
