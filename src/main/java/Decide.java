@@ -130,6 +130,24 @@ public class Decide {
         }
         return false;
     }
+    
+    boolean evaluateLIC_12(){
+        boolean greaterThan = false;
+        boolean lessThan = false;
+        if (params.NUMPOINTS < 3)
+            return false;
+        for (int i = 0; i < params.points.length - params.K_PTS - 1; i++){
+            Point point1 = params.points[i];
+            Point point2 = params.points[i + params.K_PTS + 1];
+            if (point1.distanceTo(point2) > params.LENGTH1)
+                greaterThan = true;
+            if (point1.distanceTo(point2) < params.LENGTH2)
+                lessThan = true;
+            if (greaterThan && lessThan)
+                return true;
+        }
+        return false;
+    }
 
     boolean evaluateLIC_11() {
         if(params.NUMPOINTS < 3) return false;
