@@ -82,6 +82,42 @@ class DecideTest {
     }
 
     @Test
+    void test_evaluate_LIC_4_true() {
+        Decide decide = new Decide();
+
+        int multiplier = -1;
+        // Put points on (0,0), (-1,1), (-2, -2), (3, -3), (4, 4)..
+        for (int i = 0; i < decide.params.points.length; i++) {
+            int x = i * -multiplier;
+            int y = i % 3 == 0 ? -i : i * multiplier;
+            multiplier = multiplier * -1;
+
+            decide.params.points[i] = decide.new Point(x, y);
+            decide.params.points[i].printPoint();
+        }
+
+        decide.params.QUADS = 4;
+        decide.params.Q_PTS = 50;
+
+        assertTrue(decide.evaluateLIC_4());
+    }
+
+    @Test
+    void test_evaluate_LIC_4_false() {
+        Decide decide = new Decide();
+
+        for (int i = 0; i < decide.params.points.length; i++) {
+            decide.params.points[i] = decide.new Point(i, i);
+            decide.params.points[i].printPoint();
+        }
+
+        decide.params.QUADS = 4;
+        decide.params.Q_PTS = 50;
+
+        assertFalse(decide.evaluateLIC_4());
+    }
+
+    @Test
     void test_evaluate_LIC_5_false() {
         Decide decide = new Decide();
         decide.params.LENGTH1 = 2;

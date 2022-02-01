@@ -1,8 +1,17 @@
 import java.lang.Math;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Decide {
     Parameters params = new Parameters();
+
+    final static int QUADRANT_1 = 1;
+    final static int QUADRANT_2 = 2;
+    final static int QUADRANT_3 = 3;
+    final static int QUADRANT_4 = 4;
+
     public static void main(String[] args) {
         Decide decide = new Decide();
         System.out.println(decide.triangleArea(decide.new Point(0, 0), decide.new Point(1,0), decide.new Point(2,2)));
@@ -37,6 +46,32 @@ public class Decide {
             if (triangleArea(a,b,c) > params.AREA1)
                 return true;
         }
+        return false;
+    }
+
+    boolean evaluateLIC_4() {
+        HashMap<Integer, Integer> quadCount = new HashMap<>();
+        Queue<Integer> queueQuandrant = new LinkedList<>();
+
+        for (Point p: params.points) {
+            System.out.println("quadrant " + p.quadrantNumber());
+            if (queueQuandrant.size() >= params.Q_PTS && quadCount.keySet().size() >= params.QUADS) {
+                return true;
+            } else if (queueQuandrant.size() < params.Q_PTS) {
+                queueQuandrant.add(p.quadrantNumber());
+                int count = quadCount.getOrDefault(p.quadrantNumber(), 0);
+                quadCount.put(p.quadrantNumber(), count + 1);
+            } else {
+                int removedQuadrantNumber = queueQuandrant.remove();
+                int count = quadCount.get(removedQuadrantNumber);
+
+                if (count - 1 <= 0)
+                    quadCount.remove(removedQuadrantNumber);
+                else
+                    quadCount.put(removedQuadrantNumber, count - 1);
+            }
+        }
+
         return false;
     }
 
@@ -188,6 +223,18 @@ public class Decide {
 
         double getX() { return this.x; }
         double getY() { return this.y; }
+
+        int quadrantNumber() {
+            if (this.x >= 0 && this.y >= 0)
+                return QUADRANT_1;
+            if (this.x < 0 && this.y >= 0)
+                return QUADRANT_2;
+            if (this.x <= 0 && this.y < 0)
+                return QUADRANT_3;
+
+            // if this.x < 0 && this.y >= 0
+            return QUADRANT_4;
+        }
 
         double distanceTo(Point b) {
             return Math.hypot(this.getX() - b.getX(), this.getY() - b.getY());
