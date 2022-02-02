@@ -128,7 +128,7 @@ class ComputationsTest {
     }
 
     @Test
-    void test_evaluate_LIC_2_false_params_EPCILON() {
+    void test_evaluate_LIC_2_false_params_EPSILON() {
         Computations decide = new Computations(parameters);
         decide.params.EPSILON = 5;
         assertFalse(decide.evaluateLIC_2());
