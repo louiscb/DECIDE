@@ -2,6 +2,9 @@ package decide;
 
 public class Decide {
 
+    /**
+    * Main function tha executes the DECIDE program
+    */
     public static void main(String[] args) {
         System.out.println("\nInitializing DECIDE program...");
 
