@@ -25,6 +25,10 @@ public class Parameters {
     boolean[] PUV = new boolean[NUMCONDITIONS];
     boolean[] FUV = new boolean[NUMCONDITIONS];
 
+    /**
+    * Class constructor.
+    * Sets the parameters and inputs to default values and generates 100 random points
+    */
     public Parameters() {
         // Default set of parameters for test runs
         this.LENGTH1 = 1;

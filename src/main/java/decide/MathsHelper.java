@@ -4,14 +4,30 @@ import java.util.Arrays;
 
 public class MathsHelper {
 
+    /**
+    * Returns the area of the triangle the points a, b and c form. 
+    *
+    * @param a a Point object 
+    * @param b a Point object 
+    * @param c a Point object 
+    * @return the triangle area.
+    */
     public static double triangleArea(Point a, Point b, Point c) {
         return Math.abs(0.5*(a.getX()* (b.getY()-c.getY()) +
                 b.getX()* (c.getY() - a.getY()) +
                 c.getX()* (a.getY() - b.getY())));
     }
 
+    /**
+    * Returns the minimum circle radius required for the points a, b and c 
+    * to lie in or on a circle.
+    *
+    * @param a a Point object
+    * @param b a Point object
+    * @param c a Point object
+    * @return the minimum circle radius
+    */
     public static double minCircleRadius(Point a, Point b, Point c) {
-        //Find the minimum radius required for a circle so that a, b and c to lie in or on it.
         double ab = a.distanceTo(b);
         double ac = a.distanceTo(c);
         double bc = b.distanceTo(c);
@@ -26,7 +42,7 @@ public class MathsHelper {
         // If that is the case the circle has the longest triangle edge as diameter.
         double[] array = {ab, ac, bc};
         Arrays.sort(array); // results in array[2] being the longest edge in the triangle.
-        if (Math.pow(array[2],2) >= Math.pow(array[1],2) + Math.pow(array[0],2)) { //if obtuse
+        if (Math.pow(array[2],2) >= Math.pow(array[1],2) + Math.pow(array[0],2)) {
             return array[2]*0.5;
         }
         //Otherwise calculate the radius of the circum-circle for the points (where all the points are on the circle).
