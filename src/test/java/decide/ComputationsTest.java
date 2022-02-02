@@ -37,6 +37,13 @@ class ComputationsTest {
         assertFalse(decide.evaluateLIC_0());
     }
 
+    @Test
+    void test_evaluate_LIC_0_false_params_LENGTH1() {
+        Computations decide = new Computations(parameters);
+        decide.params.LENGTH1 = -1;
+        assertFalse(decide.evaluateLIC_0());
+    }
+
     @Test 
     void test_evaluate_LIC_1_true() {
         Computations decide = new Computations(parameters);
@@ -61,6 +68,13 @@ class ComputationsTest {
         for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = new Point(i*0.01,i*0.015);
         }
+        assertFalse(decide.evaluateLIC_1());
+    }
+
+    @Test
+    void test_evaluate_LIC_1_false_params_RADIUS1() {
+        Computations decide = new Computations(parameters);
+        decide.params.RADIUS1 = -1;
         assertFalse(decide.evaluateLIC_1());
     }
 
@@ -114,6 +128,13 @@ class ComputationsTest {
     }
 
     @Test
+    void test_evaluate_LIC_2_false_params_EPCILON() {
+        Computations decide = new Computations(parameters);
+        decide.params.EPSILON = 5;
+        assertFalse(decide.evaluateLIC_2());
+    }
+
+    @Test
     void test_evaluate_LIC_3_true() {
         Computations decide = new Computations(parameters);
         decide.params.AREA1 = 5;
@@ -135,6 +156,13 @@ class ComputationsTest {
         for (int i = 0; i < decide.params.points.length; i++) {
             decide.params.points[i] = new Point(0,0);
         }
+        assertFalse(decide.evaluateLIC_3());
+    }
+
+    @Test
+    void test_evaluate_LIC_3_false_params_AREA1() {
+        Computations decide = new Computations(parameters);
+        decide.params.AREA1 = -1;
         assertFalse(decide.evaluateLIC_3());
     }
 
@@ -167,6 +195,20 @@ class ComputationsTest {
         decide.params.QUADS = 3;
         decide.params.Q_PTS = 50;
 
+        assertFalse(decide.evaluateLIC_4());
+    }
+
+    @Test
+    void test_evaluate_LIC_4_false_params_Q_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.Q_PTS = -1;
+        assertFalse(decide.evaluateLIC_4());
+    }
+
+    @Test
+    void test_evaluate_LIC_4_false_params_QUADS() {
+        Computations decide = new Computations(parameters);
+        decide.params.QUADS = 5;
         assertFalse(decide.evaluateLIC_4());
     }
 
@@ -244,6 +286,20 @@ class ComputationsTest {
     }
 
     @Test
+    void test_evaluate_LIC_6_false_params_N_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.N_PTS = 2;
+        assertFalse(decide.evaluateLIC_6());
+    }
+
+    @Test
+    void test_evaluate_LIC_6_false_params_DIST() {
+        Computations decide = new Computations(parameters);
+        decide.params.DIST = -1;
+        assertFalse(decide.evaluateLIC_6());
+    }
+
+    @Test
     void test_evaluate_LIC_7_true() {
         Computations decide = new Computations(parameters);
         decide.params.K_PTS = 2;
@@ -270,6 +326,13 @@ class ComputationsTest {
         // Update two points, but there distance is not greater than LENGTH1
         decide.params.points[3] = new Point(1,1);
         decide.params.points[6] = new Point(2,2);
+        assertFalse(decide.evaluateLIC_7());
+    }
+
+    @Test
+    void test_evaluate_LIC_7_false_params_K_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.K_PTS = 0;
         assertFalse(decide.evaluateLIC_7());
     }
 
@@ -302,6 +365,30 @@ class ComputationsTest {
         // Update two points but three points are still within the RADIUS1
         decide.params.points[3] = new Point(1,0);
         decide.params.points[7] = new Point(1,1);
+        assertFalse(decide.evaluateLIC_8());
+    }
+
+    @Test
+    void test_evaluate_LIC_8_false_params_A_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.A_PTS = 0;
+        decide.params.B_PTS = 1;
+        assertFalse(decide.evaluateLIC_8());
+    }
+
+    @Test
+    void test_evaluate_LIC_8_false_params_B_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.A_PTS = 1;
+        decide.params.B_PTS = 0;
+        assertFalse(decide.evaluateLIC_8());
+    }
+
+    @Test
+    void test_evaluate_LIC_8_false_params_A_PTS_AND_B_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.A_PTS = decide.params.NUMPOINTS + 1;
+        decide.params.B_PTS = decide.params.NUMPOINTS + 1;
         assertFalse(decide.evaluateLIC_8());
     }
 
@@ -421,6 +508,33 @@ class ComputationsTest {
     }
 
     @Test
+    void test_evaluate_LIC_10_false_params_E_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.E_PTS = 0;
+        decide.params.F_PTS = 1;
+
+        assertFalse(decide.evaluateLIC_10());
+    }
+
+    @Test
+    void test_evaluate_LIC_10_false_params_F_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.E_PTS = 1;
+        decide.params.F_PTS = 0;
+
+        assertFalse(decide.evaluateLIC_10());
+    }
+
+    @Test
+    void test_evaluate_LIC_10_false_params_E_PTS_AND_F_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.E_PTS = decide.params.NUMPOINTS + 3;
+        decide.params.F_PTS = decide.params.NUMPOINTS + 3;
+
+        assertFalse(decide.evaluateLIC_10());
+    }
+
+    @Test
     void test_evaluate_LIC_11_true() {
         Computations decide = new Computations(parameters);
         decide.params.G_PTS = 1;
@@ -447,6 +561,13 @@ class ComputationsTest {
         // where (x_j - x_i) > 0  and i < j which should be false.
         decide.params.points[decide.params.points.length - (1 + decide.params.G_PTS + 1)] = new Point(0,1);
         decide.params.points[decide.params.points.length - 1] = new Point(10,1);
+        assertFalse(decide.evaluateLIC_11());
+    }
+
+    @Test
+    void test_evaluate_LIC_11_false_params_G_PTS() {
+        Computations decide = new Computations(parameters);
+        decide.params.G_PTS = 0;
         assertFalse(decide.evaluateLIC_11());
     }
 
@@ -502,6 +623,13 @@ class ComputationsTest {
             decide.params.points[i] = new Point(increase ,increase);
             increase=increase+10;
         }
+        assertFalse(decide.evaluateLIC_12());
+    }
+
+    @Test
+    void test_evaluate_LIC_12_false_params_LENGTH2() {
+        Computations decide = new Computations(parameters);
+        decide.params.LENGTH2 = -1;
         assertFalse(decide.evaluateLIC_12());
     }
 
@@ -572,10 +700,17 @@ class ComputationsTest {
     }
 
     @Test
+    void test_evaluate_LIC_13_false_params_RADIUS2() {
+        Computations decide = new Computations(parameters);
+        decide.params.RADIUS2 = -1;
+        assertFalse(decide.evaluateLIC_13());
+    }
+
+    @Test
     void test_evaluate_LIC_14_true() {
         Computations decide = new Computations(parameters);
-        decide.params.E_PTS = 0;
-        decide.params.F_PTS = 0;
+        decide.params.E_PTS = 1;
+        decide.params.F_PTS = 1;
         decide.params.AREA1 = 5;
         decide.params.AREA2 = 19;
 
@@ -593,8 +728,8 @@ class ComputationsTest {
     @Test
     void test_evaluate_LIC_14_false_due_to_area1() {
         Computations decide = new Computations(parameters);
-        decide.params.E_PTS = 0;
-        decide.params.F_PTS = 0;
+        decide.params.E_PTS = 1;
+        decide.params.F_PTS = 1;
         decide.params.AREA1 = 20;
         decide.params.AREA2 = 19;
 
@@ -612,8 +747,8 @@ class ComputationsTest {
     @Test
     void test_evaluate_LIC_14_false_due_to_area2() {
         Computations decide = new Computations(parameters);
-        decide.params.E_PTS = 0;
-        decide.params.F_PTS = 0;
+        decide.params.E_PTS = 1;
+        decide.params.F_PTS = 1;
         decide.params.AREA1 = 5;
         decide.params.AREA2 = 17;
 
@@ -624,6 +759,13 @@ class ComputationsTest {
             i = (i + 2) % triangle.length;
         }
 
+        assertFalse(decide.evaluateLIC_14());
+    }
+
+    @Test
+    void test_evaluate_LIC_14_false_params_AREA2() {
+        Computations decide = new Computations(parameters);
+        decide.params.AREA2 = -1;
         assertFalse(decide.evaluateLIC_14());
     }
 
