@@ -134,6 +134,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_0() {
+        if (!(0 <= params.LENGTH1)) return false;
         for (int i = 0; i < params.points.length-1; i++) {
             if (params.points[i].distanceTo(params.points[i + 1]) > params.LENGTH1)
                 return true;
@@ -156,6 +157,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_1() {
+        if (!(0 <= params.RADIUS1)) return false;
         for (int i = 0; i < params.points.length - 2; i++) {
             Point a = params.points[i];
             Point b = params.points[i+1];
@@ -188,6 +190,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_2(){
+        if (!(0 <= params.EPSILON && params.EPSILON < params.PI)) return false;
         for (int i = 0; i < params.points.length-2; i++){
             Point a = params.points[i];
             Point b = params.points[i+1];
@@ -219,6 +222,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_3() {
+        if (!(0 <= params.AREA1)) return false;
         for (int i = 0; i < params.points.length - 2; i++) {
             Point a = params.points[i];
             Point b = params.points[i+1];
@@ -249,7 +253,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_4() {
-        if (! (2 <= params.Q_PTS || params.Q_PTS <= params.NUMPOINTS || 1 <= params.QUADS || params.QUADS <= 3))
+        if (! (2 <= params.Q_PTS && params.Q_PTS <= params.NUMPOINTS && 1 <= params.QUADS && params.QUADS <= 3))
             return false;
 
         HashMap<Integer, Integer> quadrantCount = new HashMap<>();
@@ -317,6 +321,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_6() {
+        if (! (3 <= params.N_PTS && params.N_PTS <= params.NUMPOINTS && 0 <= params.DIST)) return false;
         if(params.NUMPOINTS < 3) return false;
         Point first, last;
         double distToLine, distFirstToLast;
@@ -358,6 +363,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_7(){
+        if (! (1 <= params.K_PTS && params.K_PTS <= params.NUMPOINTS -2)) return false;
         if (params.NUMPOINTS < 3)
             return false;
         for (int i = 0; i < params.points.length - params.K_PTS - 1; i++){
@@ -390,6 +396,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_8() {
+        if (! (1 <= params.A_PTS && 1 <= params.B_PTS && params.A_PTS + params.B_PTS <= params.NUMPOINTS-3)) return false;
         if (params.points.length < 5) return false;
         for (int i = 0; i < params.points.length - params.A_PTS - params.B_PTS - 2; i++) {
             Point a = params.points[i];
@@ -467,6 +474,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_10() {
+        if (! (1 <= params.E_PTS && 1 <= params.F_PTS && params.E_PTS + params.F_PTS <= params.NUMPOINTS-3)) return false;
         if (params.points.length < 5) return false;
         for (int i = 0; i < params.points.length - params.E_PTS - params.F_PTS - 2; i++) {
             Point a = params.points[i];
@@ -494,6 +502,7 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_11() {
+        if (! (1 <= params.G_PTS && params.G_PTS <= params.NUMPOINTS - 2)) return false;
         if(params.NUMPOINTS < 3) return false;
         int j = 0;
         for (int i = 0; i < params.points.length - (params.G_PTS + 1); i++) {
@@ -529,6 +538,7 @@ public class Computations {
     boolean evaluateLIC_12(){
         boolean greaterThan = false;
         boolean lessThan = false;
+        if (! (0 <= params.LENGTH2)) return false;
         if (params.NUMPOINTS < 3)
             return false;
         for (int i = 0; i < params.points.length - params.K_PTS - 1; i++){
@@ -570,6 +580,7 @@ public class Computations {
     boolean evaluateLIC_13() {
         boolean radius1 = false;
         boolean radius2 = false;
+        if (! (0 <= params.RADIUS2)) return false;
         if (params.points.length < 5) return false;
         for (int i = 0; i < params.points.length - params.A_PTS - params.B_PTS - 2; i++) {
             Point a = params.points[i];
@@ -612,8 +623,8 @@ public class Computations {
     * @return true if the condition is met otherwise return false
     */
     boolean evaluateLIC_14() {
-        if (params.points.length < 5)
-            return false;
+        if (! (0 <= params.AREA2)) return false;
+        if (params.points.length < 5) return false;
 
         boolean isLessThanArea2 = false;
 
